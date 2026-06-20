@@ -1,0 +1,5 @@
+"check","result","implication"
+"Personal names excluded from processed outputs","PASS","The public analysis avoids exporting officer-level personal identifiers."
+"Negative overdue or mora values found","REVIEW","Negative risk values are treated as source-system adjustments and flagged before causal interpretation."
+"Observed panel uses rows with positive portfolio and clients","PASS","Zero rows after the observed horizon are not treated as real closures."
+"Projection sheets kept separate from observed history","PASS","Business assumptions are not mixed with realized historical performance."
