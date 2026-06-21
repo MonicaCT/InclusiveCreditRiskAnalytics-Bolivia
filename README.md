@@ -15,9 +15,11 @@ Professional portfolio project using branch-level microfinance data from Bolivia
 
 ## Executive summary
 
-This repository is a polished portfolio case for doctoral and senior data analyst applications. It starts from messy operational Excel workbooks, builds a reproducible R pipeline, produces cleaned panels and analytical tables, validates forecasts, stress-tests portfolio risk, and communicates the results through a GitHub Pages dashboard.
+This project transforms operational credit portfolio records into a structured analytical framework for understanding portfolio dynamics, financial inclusion patterns, territorial distribution, credit risk, and portfolio sustainability.
 
-The substantive framing is development finance: portfolio growth is interpreted through responsible financial inclusion, territorial access and inequality-of-access proxies. The project is careful not to claim poverty reduction without household welfare data, which makes the analytical argument stronger and more credible.
+Starting from heterogeneous Excel workbooks, the workflow builds a reproducible R-based pipeline that consolidates branch-level information into clean analytical datasets, generates performance indicators, validates forecasting models, evaluates risk scenarios, and produces interactive visualizations and technical outputs for transparent analysis.
+
+The analytical perspective focuses on responsible financial inclusion, territorial access to credit, and the distribution of financial services across branches. Portfolio growth is examined alongside outreach, concentration patterns, credit depth, and portfolio quality indicators, providing a multidimensional view of credit expansion and financial access. The analysis explicitly distinguishes observed evidence from broader socioeconomic outcomes, ensuring that interpretations remain consistent with the information available in the underlying data.
 
 ## Research question
 
