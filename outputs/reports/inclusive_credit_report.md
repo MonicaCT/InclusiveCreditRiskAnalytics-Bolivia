@@ -38,10 +38,16 @@ The raw workbook includes officer-level names in the Personal sheet. Processed o
 
 ## Outputs
 
+- `docs/index.html`: GitHub Pages dashboard with KPI cards, figures and diagnostic tables.
 - `data/processed/portfolio_panel.csv`: clean observed and projected panel.
 - `outputs/tables/kpi_branch_summary.csv`: executive KPIs by branch.
 - `outputs/tables/model_backtesting.csv`: forecast validation results.
 - `outputs/tables/territorial_balance_metrics.csv`: concentration and inequality-proxy metrics.
+- `outputs/tables/risk_return_matrix.csv`: risk-growth positioning by branch.
+- `outputs/tables/forecast_vs_business_plan.csv`: business projection gap versus statistical forecast.
+- `outputs/tables/stress_test_scenarios.csv`: 12-month scenario stress tests.
+- `reports/research-paper.md`: doctoral-style research note.
+- `reports/technical-report.md`: deeper analytical documentation.
 - `outputs/figures/*.png`: publication-ready visualizations.
 
 ## Source context

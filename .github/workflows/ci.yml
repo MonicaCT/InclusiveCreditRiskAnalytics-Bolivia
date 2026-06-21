@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  structure-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required project files
+        run: |
+          test -f README.md
+          test -f PRIVACY.md
+          test -f docs/index.html
+          test -f scripts/01_run_analysis.R
+          test -f outputs/tables/kpi_branch_summary.csv
+          test -f outputs/tables/model_backtesting.csv
+          test -f outputs/tables/stress_test_scenarios.csv

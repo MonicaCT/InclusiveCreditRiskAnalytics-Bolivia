@@ -6,6 +6,7 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(scales)
   library(forecast)
+  library(jsonlite)
 })
 
 get_script_dir <- function() {
@@ -26,7 +27,9 @@ paths <- list(
   tables = file.path(repo_root, "outputs", "tables"),
   figures = file.path(repo_root, "outputs", "figures"),
   reports = file.path(repo_root, "outputs", "reports"),
-  docs = file.path(repo_root, "docs")
+  docs = file.path(repo_root, "docs"),
+  docs_figures = file.path(repo_root, "docs", "figures"),
+  root_reports = file.path(repo_root, "reports")
 )
 invisible(lapply(paths, dir_create))
 
@@ -53,6 +56,29 @@ fmt_pct <- function(x, accuracy = 0.1) {
 }
 
 fmt_date <- function(x) format(as.Date(x), "%Y-%m-%d")
+
+html_escape <- function(x) {
+  x <- as.character(x)
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub('"', "&quot;", x, fixed = TRUE)
+  x
+}
+
+table_html <- function(df, digits = 2, max_rows = 20) {
+  df <- as.data.frame(df)
+  if (nrow(df) > max_rows) df <- head(df, max_rows)
+  for (nm in names(df)) {
+    if (is.numeric(df[[nm]])) df[[nm]] <- fmt_num(df[[nm]], digits)
+    if (inherits(df[[nm]], "Date")) df[[nm]] <- fmt_date(df[[nm]])
+  }
+  header <- paste0("<th>", html_escape(names(df)), "</th>", collapse = "")
+  rows <- apply(df, 1, function(row) {
+    paste0("<tr>", paste0("<td>", html_escape(row), "</td>", collapse = ""), "</tr>")
+  })
+  paste0("<table><thead><tr>", header, "</tr></thead><tbody>", paste(rows, collapse = "\n"), "</tbody></table>")
+}
 
 read_pp_sheet <- function(sheet, branch) {
   raw <- read_xlsx(main_file, sheet = sheet, col_names = FALSE, .name_repair = "minimal")
@@ -233,6 +259,72 @@ inclusion_metrics <- observed_panel %>%
 
 write_csv_base(inclusion_metrics, file.path(paths$processed, "inclusion_metrics_panel.csv"))
 
+risk_adjusted_panel <- observed_panel %>%
+  arrange(branch, date) %>%
+  group_by(branch) %>%
+  mutate(
+    month_index = row_number(),
+    maturity_stage = case_when(
+      month_index <= 6 ~ "Launch",
+      month_index <= 18 ~ "Scale-up",
+      TRUE ~ "Consolidation"
+    ),
+    positive_mora = pmax(mora_rate, 0),
+    risk_adjusted_growth = portfolio_growth_mom - positive_mora,
+    disbursement_growth_mom = disbursements_kbob / lag(disbursements_kbob) - 1,
+    next_mora_rate = lead(positive_mora),
+    next_mora_change = lead(positive_mora) - positive_mora
+  ) %>%
+  ungroup()
+
+write_csv_base(risk_adjusted_panel, file.path(paths$processed, "risk_adjusted_panel.csv"))
+
+branch_maturity <- risk_adjusted_panel %>%
+  group_by(branch, maturity_stage) %>%
+  summarise(
+    months = n(),
+    portfolio_growth_mean = mean(portfolio_growth_mom, na.rm = TRUE),
+    clients_growth_mean = mean(clients_growth_mom, na.rm = TRUE),
+    disbursement_per_client_mean_bob = mean(disbursement_per_client_bob, na.rm = TRUE),
+    avg_balance_mean_bob = mean(avg_balance_bob, na.rm = TRUE),
+    mora_mean = mean(positive_mora, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+write_csv_base(branch_maturity, file.path(paths$tables, "branch_maturity_profile.csv"))
+
+risk_return_matrix <- risk_adjusted_panel %>%
+  group_by(branch) %>%
+  summarise(
+    mean_monthly_portfolio_growth = mean(portfolio_growth_mom, na.rm = TRUE),
+    growth_volatility = sd(portfolio_growth_mom, na.rm = TRUE),
+    mean_mora = mean(positive_mora, na.rm = TRUE),
+    max_mora = max(positive_mora, na.rm = TRUE),
+    final_clients = last(clients),
+    final_avg_balance_bob = last(avg_balance_bob),
+    risk_adjusted_outreach_score = 100 * (
+      0.45 * (last(clients) / max(observed_panel$clients, na.rm = TRUE)) +
+        0.35 * (last(portfolio_kbob) / max(observed_panel$portfolio_kbob, na.rm = TRUE)) +
+        0.20 * pmax(0, 1 - max(positive_mora, na.rm = TRUE) / 0.02)
+    ),
+    .groups = "drop"
+  )
+
+write_csv_base(risk_return_matrix, file.path(paths$tables, "risk_return_matrix.csv"))
+
+leading_risk_signals <- risk_adjusted_panel %>%
+  filter(!is.na(next_mora_rate)) %>%
+  group_by(branch) %>%
+  summarise(
+    corr_growth_next_mora = suppressWarnings(cor(portfolio_growth_mom, next_mora_rate, use = "complete.obs")),
+    corr_disbursement_growth_next_mora = suppressWarnings(cor(disbursement_growth_mom, next_mora_rate, use = "complete.obs")),
+    corr_clients_growth_next_mora = suppressWarnings(cor(clients_growth_mom, next_mora_rate, use = "complete.obs")),
+    warning_note = "Correlations are diagnostic signals only; small monthly samples do not support causal claims.",
+    .groups = "drop"
+  )
+
+write_csv_base(leading_risk_signals, file.path(paths$tables, "leading_risk_signals.csv"))
+
 forecast_accuracy <- function(actual, predicted) {
   tibble(
     rmse = sqrt(mean((actual - predicted)^2, na.rm = TRUE)),
@@ -307,6 +399,28 @@ model_forecast <- bind_rows(lapply(forecast_results, `[[`, "forecast"))
 write_csv_base(model_backtesting, file.path(paths$tables, "model_backtesting.csv"))
 write_csv_base(model_forecast, file.path(paths$tables, "model_forecast_portfolio.csv"))
 
+forecast_vs_plan <- model_forecast %>%
+  select(date, branch, model, forecast_kbob, lo80_kbob, hi80_kbob) %>%
+  left_join(
+    projection_panel %>%
+      select(date, branch, business_projection_kbob = portfolio_kbob,
+             projected_disbursements_kbob = disbursements_kbob,
+             projected_mora_rate = mora_rate),
+    by = c("date", "branch")
+  ) %>%
+  mutate(
+    projection_gap_kbob = business_projection_kbob - forecast_kbob,
+    projection_gap_pct = projection_gap_kbob / forecast_kbob,
+    planning_signal = case_when(
+      is.na(projection_gap_pct) ~ "No matched workbook projection",
+      projection_gap_pct > 0.50 ~ "Aggressive plan versus statistical forecast",
+      projection_gap_pct < -0.15 ~ "Conservative plan versus statistical forecast",
+      TRUE ~ "Aligned planning band"
+    )
+  )
+
+write_csv_base(forecast_vs_plan, file.path(paths$tables, "forecast_vs_business_plan.csv"))
+
 projection_summary <- projection_panel %>%
   group_by(branch) %>%
   summarise(
@@ -320,6 +434,64 @@ projection_summary <- projection_panel %>%
   )
 
 write_csv_base(projection_summary, file.path(paths$tables, "business_projection_summary.csv"))
+
+last_observed <- observed_panel %>%
+  group_by(branch) %>%
+  slice_tail(n = 1) %>%
+  ungroup() %>%
+  select(branch, portfolio_kbob, disbursements_kbob, clients, mora_rate)
+
+scenario_assumptions <- tibble::tibble(
+  scenario = c("Responsible inclusion", "Credit tightening", "High growth risk", "Mora shock"),
+  monthly_growth = c(0.035, 0.010, 0.060, 0.025),
+  client_growth = c(0.025, 0.008, 0.035, 0.015),
+  mora_multiplier = c(1.10, 0.90, 1.85, 2.75),
+  development_read = c(
+    "Balanced outreach with controlled risk.",
+    "Lower access expansion but more conservative risk posture.",
+    "Fast outreach that requires stronger risk governance.",
+    "Stress case to test resilience of responsible finance."
+  )
+)
+
+stress_test <- tidyr::crossing(last_observed, scenario_assumptions) %>%
+  mutate(
+    horizon_months = 12,
+    ending_portfolio_kbob = portfolio_kbob * (1 + monthly_growth)^horizon_months,
+    ending_clients = clients * (1 + client_growth)^horizon_months,
+    stressed_mora_rate = pmax(mora_rate, 0) * mora_multiplier,
+    new_portfolio_kbob = ending_portfolio_kbob - portfolio_kbob,
+    risk_weighted_growth_kbob = new_portfolio_kbob * pmax(0, 1 - stressed_mora_rate / 0.02),
+    risk_flag = case_when(
+      stressed_mora_rate >= 0.02 ~ "Red",
+      stressed_mora_rate >= 0.01 ~ "Amber",
+      TRUE ~ "Green"
+    )
+  ) %>%
+  select(branch, scenario, horizon_months, monthly_growth, client_growth, ending_portfolio_kbob,
+         ending_clients, stressed_mora_rate, new_portfolio_kbob, risk_weighted_growth_kbob,
+         risk_flag, development_read)
+
+write_csv_base(stress_test, file.path(paths$tables, "stress_test_scenarios.csv"))
+
+policy_decision_matrix <- risk_return_matrix %>%
+  mutate(
+    strategic_priority = case_when(
+      max_mora >= 0.01 ~ "Strengthen delinquency monitoring before accelerating growth",
+      mean_monthly_portfolio_growth >= 0.20 & mean_mora < 0.005 ~ "Scale outreach while preserving underwriting discipline",
+      TRUE ~ "Maintain balanced inclusion growth and monitor productivity"
+    ),
+    development_interpretation = case_when(
+      branch == "Global" ~ "Portfolio-wide inclusion frontier",
+      branch == "16 de Julio" ~ "Mature access node with visible risk-management needs",
+      branch == "Ceja" ~ "Territorial diversification node for access equity",
+      TRUE ~ "Branch-level access signal"
+    )
+  ) %>%
+  select(branch, strategic_priority, development_interpretation, risk_adjusted_outreach_score,
+         mean_monthly_portfolio_growth, mean_mora, max_mora, final_clients)
+
+write_csv_base(policy_decision_matrix, file.path(paths$tables, "policy_decision_matrix.csv"))
 
 data_quality <- tibble(
   check = c(
@@ -438,6 +610,68 @@ p5 <- ggplot() +
   )
 ggsave(file.path(paths$figures, "global_forecast_vs_projection.png"), p5, width = 10, height = 6, dpi = 180)
 
+p6 <- risk_return_matrix %>%
+  ggplot(aes(mean_monthly_portfolio_growth, mean_mora, size = final_clients, color = branch)) +
+  geom_point(alpha = 0.88) +
+  geom_text(aes(label = branch), vjust = -1.1, size = 3.8, show.legend = FALSE) +
+  geom_hline(yintercept = 0.01, linetype = "dashed", color = "#B23A48") +
+  scale_color_manual(values = branch_colors) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 0.01)) +
+  labs(
+    title = "Risk-growth positioning",
+    subtitle = "Mean monthly portfolio growth versus observed mora; size reflects final client reach",
+    x = "Mean monthly portfolio growth", y = "Mean mora", color = "Branch", size = "Final clients"
+  ) +
+  theme(legend.position = "bottom")
+ggsave(file.path(paths$figures, "risk_growth_positioning.png"), p6, width = 10, height = 6, dpi = 180)
+
+p7 <- inclusion_metrics %>%
+  ggplot(aes(date, inclusion_responsibility_score, color = branch)) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(values = branch_colors) +
+  scale_y_continuous(limits = c(0, 105)) +
+  labs(
+    title = "Responsible inclusion score",
+    subtitle = "Composite proxy: client outreach, portfolio depth and controlled mora",
+    x = NULL, y = "Score (0-100)", color = "Branch"
+  ) +
+  theme(legend.position = "bottom")
+ggsave(file.path(paths$figures, "responsible_inclusion_score.png"), p7, width = 10, height = 6, dpi = 180)
+
+p8 <- forecast_vs_plan %>%
+  filter(!is.na(projection_gap_pct)) %>%
+  ggplot(aes(date, projection_gap_pct, color = branch)) +
+  geom_hline(yintercept = 0, color = "#4B5563") +
+  geom_hline(yintercept = 0.50, linetype = "dashed", color = "#B23A48") +
+  geom_line(linewidth = 1) +
+  scale_color_manual(values = branch_colors) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    title = "Business plan gap versus statistical forecast",
+    subtitle = "Positive values indicate workbook projection above the selected forecast model",
+    x = NULL, y = "Projection gap", color = "Branch"
+  ) +
+  theme(legend.position = "bottom")
+ggsave(file.path(paths$figures, "forecast_plan_gap.png"), p8, width = 10, height = 6, dpi = 180)
+
+p9 <- stress_test %>%
+  ggplot(aes(scenario, risk_weighted_growth_kbob, fill = risk_flag)) +
+  geom_col() +
+  facet_wrap(~ branch, scales = "free_y") +
+  scale_fill_manual(values = c(Green = "#00A6A6", Amber = "#F28F3B", Red = "#B23A48")) +
+  scale_y_continuous(labels = label_number(big.mark = ",")) +
+  labs(
+    title = "Stress-tested risk-weighted growth",
+    subtitle = "12-month scenarios penalize expansion when mora rises above the responsible-finance threshold",
+    x = NULL, y = "Risk-weighted new portfolio (thousand BOB)", fill = "Risk flag"
+  ) +
+  theme(axis.text.x = element_text(angle = 25, hjust = 1), legend.position = "bottom")
+ggsave(file.path(paths$figures, "stress_test_scenarios.png"), p9, width = 10, height = 6, dpi = 180)
+
+figure_files <- list.files(paths$figures, pattern = "\\.png$", full.names = TRUE)
+invisible(file.copy(figure_files, paths$docs_figures, overwrite = TRUE))
+
 global_summary <- branch_summary %>% filter(branch == "Global")
 branch_16 <- branch_summary %>% filter(branch == "16 de Julio")
 branch_ceja <- branch_summary %>% filter(branch == "Ceja")
@@ -452,6 +686,95 @@ best_models <- model_backtesting %>%
 
 project_title <- "Inclusive Credit Risk Analytics Bolivia"
 repo_slug <- "InclusiveCreditRiskAnalytics-Bolivia"
+dashboard_url <- paste0("https://monicact.github.io/", repo_slug, "/")
+best_global_model <- best_models$model[best_models$branch == "Global"][1]
+max_projection_gap <- forecast_vs_plan %>%
+  filter(!is.na(projection_gap_pct), branch == "Global") %>%
+  summarise(value = max(projection_gap_pct, na.rm = TRUE)) %>%
+  pull(value)
+global_responsible_score <- inclusion_metrics %>%
+  filter(branch == "Global") %>%
+  slice_tail(n = 1) %>%
+  pull(inclusion_responsibility_score)
+green_stress_share <- mean(stress_test$risk_flag == "Green", na.rm = TRUE)
+
+key_metrics <- list(
+  project = project_title,
+  observed_period = list(
+    start = fmt_date(global_summary$start_date),
+    end = fmt_date(global_summary$last_observed_date)
+  ),
+  global_clients_last = unname(global_summary$clients_last),
+  global_portfolio_last_kbob = unname(global_summary$portfolio_last_kbob),
+  global_mora_max = unname(global_summary$mora_max),
+  territorial_clients_balance_last = unname(balance_last$clients_balance_score),
+  responsible_inclusion_score_global = unname(global_responsible_score),
+  best_global_forecast_model = unname(best_global_model)
+)
+
+write_json(key_metrics, file.path(paths$root_reports, "key_metrics.json"), pretty = TRUE, auto_unbox = TRUE)
+
+dashboard_html <- c(
+  "<!doctype html>",
+  "<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">",
+  paste0("<title>", html_escape(project_title), "</title>"),
+  "<style>",
+  ":root{--navy:#16324f;--teal:#00a6a6;--orange:#f28f3b;--red:#b23a48;--ink:#17202a;--muted:#62717f;--paper:#f5f7f9;--card:#ffffff}",
+  "*{box-sizing:border-box} body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}",
+  "header{background:linear-gradient(135deg,var(--navy),#2f6b9a);color:white;padding:4.5rem max(6vw,2rem) 5rem}",
+  "header p{max-width:850px;font-size:1.13rem}.badge{display:inline-block;background:var(--orange);color:#17202a;padding:.35rem .7rem;border-radius:999px;font-weight:800}",
+  ".links a{display:inline-block;margin:.7rem .6rem 0 0;padding:.72rem 1rem;border:2px solid white;border-radius:8px;color:white;text-decoration:none;font-weight:750}",
+  "main{max-width:1220px;margin:auto;padding:2rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:-4.5rem}",
+  ".card{background:var(--card);padding:1.15rem;border-radius:12px;box-shadow:0 8px 24px #16324f18;border-top:4px solid var(--teal)}",
+  ".card span{display:block;color:var(--muted)}.card strong{font-size:1.55rem;color:var(--navy)}",
+  ".notice{margin:2rem 0;padding:1rem 1.2rem;background:#fff8df;border-left:5px solid var(--orange)}",
+  ".grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1.25rem}.wide{grid-column:1/-1}",
+  "figure{margin:0;background:white;padding:1rem;border-radius:12px;box-shadow:0 4px 18px #16324f10} img{width:100%;height:auto} figcaption{font-weight:800;color:var(--navy)}",
+  "section{margin:2rem 0} table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px #16324f10}",
+  "th,td{text-align:left;padding:.75rem;border-bottom:1px solid #e7edf3}th{background:#eaf2f8;color:var(--navy)}",
+  "footer{padding:2rem;text-align:center;color:var(--muted)} @media(max-width:700px){.grid{grid-template-columns:1fr}header{padding-top:3rem}}",
+  "</style></head><body>",
+  "<header>",
+  "<span class=\"badge\">Responsible finance and development analytics</span>",
+  paste0("<h1>", html_escape(project_title), "</h1>"),
+  "<p>A reproducible credit-portfolio dashboard connecting branch expansion, risk governance, financial inclusion, territorial inequality and development economics. Results are portfolio-access proxies, not causal poverty estimates.</p>",
+  "<div class=\"links\"><a href=\"../README.md\">Repository README</a><a href=\"../reports/research-paper.md\">Research note</a><a href=\"../reports/technical-report.md\">Technical report</a></div>",
+  "</header>",
+  "<main>",
+  "<section class=\"cards\">",
+  paste0("<article class=\"card\"><span>Observed period</span><strong>", fmt_date(global_summary$start_date), " to ", fmt_date(global_summary$last_observed_date), "</strong></article>"),
+  paste0("<article class=\"card\"><span>Global clients reached</span><strong>", fmt_num(global_summary$clients_last, 0), "</strong></article>"),
+  paste0("<article class=\"card\"><span>Global active portfolio</span><strong>", fmt_num(global_summary$portfolio_last_kbob, 1), "k BOB</strong></article>"),
+  paste0("<article class=\"card\"><span>Max global mora</span><strong>", fmt_pct(global_summary$mora_max, 0.01), "</strong></article>"),
+  paste0("<article class=\"card\"><span>Client territorial balance</span><strong>", fmt_pct(balance_last$clients_balance_score, 1), "</strong></article>"),
+  paste0("<article class=\"card\"><span>Best global forecast</span><strong>", html_escape(best_global_model), "</strong></article>"),
+  "</section>",
+  "<aside class=\"notice\"><strong>Interpretation guardrail:</strong> this dashboard measures formal credit outreach, territorial access and responsible-finance risk. Poverty and inequality are interpreted through financial-inclusion proxies because the source data do not include household income, consumption or welfare outcomes.</aside>",
+  "<section><h2>Analytical narrative</h2><div class=\"grid\">",
+  "<figure class=\"wide\"><img src=\"figures/portfolio_expansion.png\" alt=\"Portfolio expansion\"><figcaption>Portfolio expansion and workbook projection by branch</figcaption></figure>",
+  "<figure><img src=\"figures/inclusion_credit_depth.png\" alt=\"Inclusion and credit depth\"><figcaption>Client reach and credit depth</figcaption></figure>",
+  "<figure><img src=\"figures/mora_risk_monitor.png\" alt=\"Mora risk monitor\"><figcaption>Responsible growth risk monitor</figcaption></figure>",
+  "<figure><img src=\"figures/territorial_balance.png\" alt=\"Territorial balance\"><figcaption>Territorial balance as inequality proxy</figcaption></figure>",
+  "<figure><img src=\"figures/risk_growth_positioning.png\" alt=\"Risk growth positioning\"><figcaption>Risk-growth positioning</figcaption></figure>",
+  "<figure><img src=\"figures/responsible_inclusion_score.png\" alt=\"Responsible inclusion score\"><figcaption>Responsible inclusion score</figcaption></figure>",
+  "<figure><img src=\"figures/global_forecast_vs_projection.png\" alt=\"Forecast versus projection\"><figcaption>Forecast versus business projection</figcaption></figure>",
+  "<figure><img src=\"figures/forecast_plan_gap.png\" alt=\"Forecast plan gap\"><figcaption>Business-plan gap against model forecast</figcaption></figure>",
+  "<figure class=\"wide\"><img src=\"figures/stress_test_scenarios.png\" alt=\"Stress test scenarios\"><figcaption>Stress-tested risk-weighted growth</figcaption></figure>",
+  "</div></section>",
+  "<section><h2>Branch diagnostic summary</h2>",
+  table_html(policy_decision_matrix, digits = 3),
+  "</section>",
+  "<section><h2>Forecast model validation</h2>",
+  table_html(model_backtesting, digits = 2),
+  "</section>",
+  "<section><h2>Stress testing scenarios</h2>",
+  table_html(stress_test %>% select(branch, scenario, ending_portfolio_kbob, ending_clients, stressed_mora_rate, risk_flag), digits = 3),
+  "</section>",
+  "<section><h2>Methodological position</h2><p>The analysis is deliberately association-based. It deepens the portfolio work with model validation, stress testing and early-warning diagnostics while preserving the original limitation: no causal poverty claim is made without socioeconomic outcome data and a credible identification strategy.</p></section>",
+  "</main><footer>Generated from scripts/01_run_analysis.R with privacy-aware branch-level outputs.</footer></body></html>"
+)
+
+writeLines(dashboard_html, file.path(paths$docs, "index.html"), useBytes = TRUE)
 
 report_lines <- c(
   paste0("# ", project_title),
@@ -511,10 +834,16 @@ report_lines <- c(
   "",
   "## Outputs",
   "",
+  "- `docs/index.html`: GitHub Pages dashboard with KPI cards, figures and diagnostic tables.",
   "- `data/processed/portfolio_panel.csv`: clean observed and projected panel.",
   "- `outputs/tables/kpi_branch_summary.csv`: executive KPIs by branch.",
   "- `outputs/tables/model_backtesting.csv`: forecast validation results.",
   "- `outputs/tables/territorial_balance_metrics.csv`: concentration and inequality-proxy metrics.",
+  "- `outputs/tables/risk_return_matrix.csv`: risk-growth positioning by branch.",
+  "- `outputs/tables/forecast_vs_business_plan.csv`: business projection gap versus statistical forecast.",
+  "- `outputs/tables/stress_test_scenarios.csv`: 12-month scenario stress tests.",
+  "- `reports/research-paper.md`: doctoral-style research note.",
+  "- `reports/technical-report.md`: deeper analytical documentation.",
   "- `outputs/figures/*.png`: publication-ready visualizations.",
   "",
   "## Source context",
@@ -551,12 +880,136 @@ brief_lines <- c(
 
 writeLines(brief_lines, file.path(paths$reports, "executive_brief.md"), useBytes = TRUE)
 
+writeLines(brief_lines, file.path(paths$root_reports, "executive-summary.md"), useBytes = TRUE)
+write_csv_base(model_backtesting, file.path(paths$root_reports, "model_results.csv"))
+
+technical_report <- c(
+  "# Technical Report",
+  "",
+  "## Scope",
+  "",
+  "This report extends the original credit portfolio analysis with reproducible diagnostics for branch expansion, financial inclusion proxies, mora risk, forecast validation and stress testing.",
+  "",
+  "## Data model",
+  "",
+  "- Observed panel: branch-month records with portfolio, disbursements, clients and mora.",
+  "- Projection panel: workbook business assumptions kept separate from observed history.",
+  "- Privacy rule: officer-level names remain only in raw workbooks; public analytical outputs are branch-level.",
+  "",
+  "## Deepened analytical modules",
+  "",
+  "1. Branch maturity profile: launch, scale-up and consolidation stages.",
+  "2. Risk-growth positioning: monthly portfolio growth against mora.",
+  "3. Responsible inclusion score: client outreach, portfolio depth and risk penalty.",
+  "4. Forecast validation: Naive, ETS and ARIMA holdout backtesting.",
+  "5. Forecast-versus-plan gap: workbook projections compared with statistical forecasts.",
+  "6. Stress testing: responsible inclusion, tightening, high-growth and mora-shock scenarios.",
+  "7. Policy decision matrix: branch-level strategic priorities and development interpretation.",
+  "",
+  "## Key statistical caution",
+  "",
+  "The monthly sample is small and branch-level. Correlations and model diagnostics are useful for governance and hypothesis generation, but they are not causal estimates of poverty reduction or welfare impact.",
+  "",
+  "## Main outputs",
+  "",
+  "- `docs/index.html`: dashboard ready for GitHub Pages.",
+  "- `outputs/tables/risk_return_matrix.csv`: branch risk-growth diagnostics.",
+  "- `outputs/tables/forecast_vs_business_plan.csv`: model-vs-plan gap analysis.",
+  "- `outputs/tables/stress_test_scenarios.csv`: 12-month stress testing.",
+  "- `outputs/tables/policy_decision_matrix.csv`: strategic interpretation table."
+)
+
+writeLines(technical_report, file.path(paths$root_reports, "technical-report.md"), useBytes = TRUE)
+
+research_paper <- c(
+  "# Inclusive Credit, Risk Governance and Territorial Access in Bolivia",
+  "",
+  "## Abstract",
+  "",
+  paste0("Using branch-level credit portfolio data from ", fmt_date(global_summary$start_date), " to ",
+         fmt_date(global_summary$last_observed_date), ", this project evaluates responsible portfolio expansion as a financial inclusion proxy. The analysis combines portfolio dynamics, mora monitoring, territorial balance, forecast validation and stress testing. Results show rapid growth in client outreach and portfolio scale, while preserving a strict distinction between credit-access proxies and causal poverty impacts."),
+  "",
+  "## Research question",
+  "",
+  "How can branch-level credit portfolio data be used to evaluate responsible financial inclusion, local development potential and inequality in access to formal credit?",
+  "",
+  "## Methods",
+  "",
+  "The analysis constructs a tidy branch-month panel from Excel workbooks, separates observed history from business projections, derives development-oriented KPIs, validates time-series forecasts through holdout testing and builds stress scenarios for risk governance.",
+  "",
+  "## Results",
+  "",
+  paste0("The global portfolio expanded from ", fmt_num(global_summary$portfolio_start_kbob, 1), " to ",
+         fmt_num(global_summary$portfolio_last_kbob, 1), " thousand BOB, while clients increased from ",
+         fmt_num(global_summary$clients_start, 0), " to ", fmt_num(global_summary$clients_last, 0), "."),
+  paste0("The final client territorial balance score was ", fmt_pct(balance_last$clients_balance_score, 1),
+         ", suggesting reduced branch concentration between 16 de Julio and Ceja."),
+  paste0("The maximum observed global mora was ", fmt_pct(global_summary$mora_max, 0.01),
+         ", supporting a responsible-growth interpretation during the observed period."),
+  "",
+  "## Development interpretation",
+  "",
+  "Credit outreach can support resilience and productive investment, but the source data do not include household welfare outcomes. The project therefore frames poverty and inequality through financial inclusion and territorial access proxies.",
+  "",
+  "## Limitations",
+  "",
+  "- No household poverty, consumption or income outcomes are observed.",
+  "- No causal identification strategy is estimated.",
+  "- Small branch-level samples limit inference.",
+  "- Raw workbooks include personal names, so public analysis is limited to aggregated branch outputs.",
+  "",
+  "## Next research step",
+  "",
+  "A doctoral extension would geocode branches, add municipal poverty indicators or household survey data, and estimate exposure effects with event-study, difference-in-differences or synthetic-control designs."
+)
+
+writeLines(research_paper, file.path(paths$root_reports, "research-paper.md"), useBytes = TRUE)
+
+reporting_checklist <- c(
+  "# Responsible Reporting Checklist",
+  "",
+  "- [x] Observed history is separated from business projections.",
+  "- [x] Officer-level names are excluded from processed outputs.",
+  "- [x] Data-quality issues, including negative mora adjustments, are flagged.",
+  "- [x] Forecast models are backtested before being used in the dashboard.",
+  "- [x] Stress testing is reported as scenario analysis, not prediction.",
+  "- [x] Poverty and inequality links are described as financial-inclusion proxies.",
+  "- [x] The repository makes no causal welfare claim without additional socioeconomic data."
+)
+
+writeLines(reporting_checklist, file.path(paths$root_reports, "REPORTING-checklist.md"), useBytes = TRUE)
+
+references_bib <- c(
+  "@misc{worldbank_financial_inclusion,",
+  "  title = {Financial Inclusion Overview},",
+  "  author = {{World Bank}},",
+  "  url = {https://www.worldbank.org/ext/en/topic/financial-sector/financial-inclusion},",
+  "  note = {Accessed for conceptual framing}",
+  "}",
+  "",
+  "@misc{worldbank_global_findex,",
+  "  title = {Global Findex Database},",
+  "  author = {{World Bank}},",
+  "  url = {https://www.worldbank.org/en/publication/globalfindex},",
+  "  note = {Accessed for financial inclusion framing}",
+  "}"
+)
+
+writeLines(references_bib, file.path(paths$root_reports, "references.bib"), useBytes = TRUE)
+
 readme_lines <- c(
   paste0("# ", project_title),
+  "",
+  "[![Reproducible analysis](https://img.shields.io/badge/analysis-reproducible-00A6A6)](#reproduce)",
+  "[![Responsible finance](https://img.shields.io/badge/responsible-finance-F28F3B)](PRIVACY.md)",
+  "[![Development lens](https://img.shields.io/badge/development-inclusion-16324F)](docs/development_lens.md)",
+  paste0("[![Live dashboard](https://img.shields.io/badge/live-dashboard-B23A48)](", dashboard_url, ")"),
   "",
   "Professional portfolio project using branch-level microfinance data from Bolivia to analyze credit growth, risk, financial inclusion, territorial balance, and portfolio forecasting.",
   "",
   paste0("**Repository name:** `", repo_slug, "`"),
+  "",
+  paste0("**Explore the live analytical dashboard:** [", dashboard_url, "](", dashboard_url, ")"),
   "",
   "## Research question",
   "",
@@ -573,16 +1026,20 @@ readme_lines <- c(
   paste0("- Global clients: ", fmt_num(global_summary$clients_start, 0), " to ", fmt_num(global_summary$clients_last, 0), "."),
   paste0("- Maximum observed global mora: ", fmt_pct(global_summary$mora_max, 0.01), "."),
   paste0("- Territorial client balance score improved from ", fmt_pct(balance_first$clients_balance_score, 1), " to ", fmt_pct(balance_last$clients_balance_score, 1), "."),
+  paste0("- Responsible inclusion score, global final month: ", fmt_num(global_responsible_score, 1), "/100."),
+  paste0("- Best global forecasting model by holdout error: ", best_global_model, "."),
   "",
   "## Repository structure",
   "",
   "```text",
   "data/raw/                 Original Excel workbooks",
   "data/processed/           Tidy panels generated by the R pipeline",
-  "docs/                     Methodology, data dictionary, development lens",
+  "docs/                     GitHub Pages dashboard, methodology and development lens",
+  "docs/figures/             Dashboard-ready visual outputs",
   "outputs/figures/          Charts generated from the analysis",
   "outputs/tables/           KPI, model, and quality-control tables",
   "outputs/reports/          Executive and technical reports",
+  "reports/                  Research note, technical report, references and checklist",
   "scripts/01_run_analysis.R Main reproducible pipeline",
   "```",
   "",
@@ -596,6 +1053,10 @@ readme_lines <- c(
   "",
   "![Forecast](outputs/figures/global_forecast_vs_projection.png)",
   "",
+  "![Risk growth](outputs/figures/risk_growth_positioning.png)",
+  "",
+  "![Stress testing](outputs/figures/stress_test_scenarios.png)",
+  "",
   "## Methodology",
   "",
   "1. Ingest Excel workbooks with `readxl`.",
@@ -604,7 +1065,9 @@ readme_lines <- c(
   "4. Generate financial inclusion indicators: clients, average balance, disbursement per client, and clients per million BOB.",
   "5. Estimate territorial balance between 16 de Julio and Ceja using HHI-based concentration metrics.",
   "6. Validate portfolio forecasts using Naive, ETS, and ARIMA holdout backtests.",
-  "7. Interpret results with a development economics lens and privacy safeguards.",
+  "7. Compare statistical forecasts against workbook business projections.",
+  "8. Build stress-test scenarios for risk governance.",
+  "9. Interpret results with a development economics lens and privacy safeguards.",
   "",
   "## Research and senior analyst value",
   "",
@@ -618,6 +1081,10 @@ readme_lines <- c(
   "- [Data dictionary](docs/data_dictionary.md)",
   "- [Development lens](docs/development_lens.md)",
   "- [Research extension plan](docs/research_extension.md)",
+  "- [Live dashboard source](docs/index.html)",
+  "- [Technical report](reports/technical-report.md)",
+  "- [Research note](reports/research-paper.md)",
+  "- [Responsible reporting checklist](reports/REPORTING-checklist.md)",
   "",
   "## Reproduce",
   "",

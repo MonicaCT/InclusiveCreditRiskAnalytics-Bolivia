@@ -1,0 +1,13 @@
+{
+  "project": "Inclusive Credit Risk Analytics Bolivia",
+  "observed_period": {
+    "start": "2012-03-01",
+    "end": "2014-07-01"
+  },
+  "global_clients_last": 3827,
+  "global_portfolio_last_kbob": 69850.17,
+  "global_mora_max": 0.0025,
+  "territorial_clients_balance_last": 0.9857,
+  "responsible_inclusion_score_global": 98.2402,
+  "best_global_forecast_model": "ARIMA"
+}
