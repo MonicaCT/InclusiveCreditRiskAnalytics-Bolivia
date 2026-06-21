@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Technical Report</title>
+<style>
+:root{--navy:#16324f;--teal:#00a6a6;--orange:#f28f3b;--red:#b23a48;--ink:#17202a;--muted:#62717f;--paper:#f5f7f9;--card:#ffffff}
+*{box-sizing:border-box} body{margin:0;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}
+header{background:linear-gradient(135deg,var(--navy),#2f6b9a);color:white;padding:3.2rem max(6vw,2rem) 3.8rem}
+header p{max-width:900px;font-size:1.08rem}.badge{display:inline-block;background:var(--orange);color:#17202a;padding:.35rem .7rem;border-radius:999px;font-weight:800}
+.topnav a{display:inline-block;margin:.7rem .55rem 0 0;padding:.66rem .9rem;border:2px solid white;border-radius:8px;color:white;text-decoration:none;font-weight:750}
+main{max-width:1080px;margin:auto;padding:2rem}section{margin:1.7rem 0}.panel{background:white;border-radius:8px;box-shadow:0 4px 18px #16324f10;padding:1.25rem}
+h1,h2,h3{color:var(--navy);line-height:1.2}header h1{color:white}a{color:#1b658f;font-weight:700}code{background:#eef4f7;padding:.12rem .3rem;border-radius:4px}
+table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;box-shadow:0 4px 18px #16324f10}th,td{text-align:left;padding:.72rem;border-bottom:1px solid #e7edf3}th{background:#eaf2f8;color:var(--navy)}
+.figure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.figure-grid figure{margin:0;background:white;padding:1rem;border-radius:8px;box-shadow:0 4px 18px #16324f10}.figure-grid img{width:100%;height:auto}.notice{border-left:5px solid var(--orange);background:#fff8df;padding:1rem 1.2rem}
+footer{padding:2rem;text-align:center;color:var(--muted)} @media(max-width:700px){main{padding:1rem}.figure-grid{grid-template-columns:1fr}}
+</style></head><body>
+<header>
+<span class="badge">Senior analytics documentation</span>
+<h1>Technical Report</h1>
+<p>A technical view of the reproducible pipeline, data model, forecast validation, stress testing and privacy controls.</p>
+<nav class="topnav"><a href="index.html">Dashboard</a><a href="project-overview.html">Project overview</a><a href="research-note.html">Research note</a><a href="technical-report.html">Technical report</a></nav>
+</header><main>
+<section class="panel">
+<h2>Executive technical summary</h2>
+<p>This report documents a reproducible branch-level analytics pipeline for a Bolivian microfinance portfolio observed from 2012-03-01 to 2014-07-01. The pipeline transforms operational Excel workbooks into a tidy analytical panel, validates forecast models, monitors mora risk, and reframes portfolio expansion as a financial-inclusion and territorial-access problem.</p>
+<p>At the global level, active portfolio increased from 109.8 to 69,850.2 thousand BOB, while clients increased from 18 to 3,827. The maximum observed global mora rate was 0.25%, so the core analytical question is not only growth, but whether growth remained responsible and territorially balanced.</p>
+<h2>Data model</h2>
+<ul>
+<li>Observed panel: branch-month records with portfolio, disbursements, clients and mora.</li>
+<li>Projection panel: workbook business assumptions kept separate from observed history.</li>
+<li>Branch dimension: 16 de Julio, Ceja, and a constructed Global portfolio view.</li>
+<li>Development layer: outreach, credit depth, territorial balance and risk-adjusted inclusion metrics.</li>
+<li>Privacy rule: officer-level names remain only in raw workbooks; public analytical outputs are branch-level.</li>
+</ul>
+<h2>Analytical modules</h2>
+<ol>
+<li>Branch maturity profile: launch, scale-up and consolidation stages.</li>
+<li>Risk-growth positioning: monthly portfolio growth against mora.</li>
+<li>Responsible inclusion score: client outreach, portfolio depth and risk penalty.</li>
+<li>Forecast validation: Naive, ETS and ARIMA holdout backtesting.</li>
+<li>Forecast-versus-plan gap: workbook projections compared with statistical forecasts.</li>
+<li>Stress testing: responsible inclusion, tightening, high-growth and mora-shock scenarios.</li>
+<li>Policy decision matrix: branch-level strategic priorities and development interpretation.</li>
+</ol>
+<h2>Forecasting design</h2>
+<p>The pipeline compares Naive, ETS and ARIMA models on a holdout window and ranks models by forecast error. For the Global portfolio, the best model by holdout error is ARIMA. The purpose is governance-grade model comparison rather than a black-box forecast.</p>
+<h2>Risk and stress-testing design</h2>
+<p>Stress scenarios are expressed as analytical governance cases, not predictions. They test how portfolio size, client outreach and mora risk would behave under responsible inclusion, credit tightening, high-growth risk and mora-shock assumptions.</p>
+<h2>Development economics interpretation</h2>
+<p>The technical contribution is to connect credit-risk analytics with poverty, inequality and development without overclaiming causality. Client outreach is treated as a formal financial-inclusion proxy. Territorial balance is treated as an inequality-of-access proxy. Mora control is treated as a responsible-finance safeguard.</p>
+<h2>Key statistical caution</h2>
+<p>The monthly sample is small and branch-level. Correlations and model diagnostics are useful for governance and hypothesis generation, but they are not causal estimates of poverty reduction or welfare impact.</p>
+<h2>Quality and privacy controls</h2>
+<ul>
+<li>Raw operational files are preserved under <code>data/raw/</code>.</li>
+<li>Processed files are regenerated by <code>scripts/01_run_analysis.R</code>.</li>
+<li>Public outputs exclude officer-level personal names.</li>
+<li>Observed history and workbook projections are kept separate.</li>
+<li>Forecasts are validated before being used in the dashboard narrative.</li>
+</ul>
+<h2>Main outputs</h2>
+<ul>
+<li><code>docs/index.html</code>: dashboard ready for GitHub Pages.</li>
+<li><code>docs/research-note.html</code>: public research-note page served by GitHub Pages.</li>
+<li><code>docs/technical-report.html</code>: public technical-report page served by GitHub Pages.</li>
+<li><code>outputs/tables/risk_return_matrix.csv</code>: branch risk-growth diagnostics.</li>
+<li><code>outputs/tables/forecast_vs_business_plan.csv</code>: model-vs-plan gap analysis.</li>
+<li><code>outputs/tables/stress_test_scenarios.csv</code>: 12-month stress testing.</li>
+<li><code>outputs/tables/policy_decision_matrix.csv</code>: strategic interpretation table.</li>
+<li><code>reports/model_results.csv</code>: compact model results for senior analyst review.</li>
+<li><code>reports/references.bib</code>: citation file for the development-finance framing.</li>
+</ul>
+</section>
+</main><footer>Generated from scripts/01_run_analysis.R with privacy-aware branch-level outputs.</footer></body></html>

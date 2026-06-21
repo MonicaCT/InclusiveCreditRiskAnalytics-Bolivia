@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research Note</title>
+<style>
+:root{--navy:#16324f;--teal:#00a6a6;--orange:#f28f3b;--red:#b23a48;--ink:#17202a;--muted:#62717f;--paper:#f5f7f9;--card:#ffffff}
+*{box-sizing:border-box} body{margin:0;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}
+header{background:linear-gradient(135deg,var(--navy),#2f6b9a);color:white;padding:3.2rem max(6vw,2rem) 3.8rem}
+header p{max-width:900px;font-size:1.08rem}.badge{display:inline-block;background:var(--orange);color:#17202a;padding:.35rem .7rem;border-radius:999px;font-weight:800}
+.topnav a{display:inline-block;margin:.7rem .55rem 0 0;padding:.66rem .9rem;border:2px solid white;border-radius:8px;color:white;text-decoration:none;font-weight:750}
+main{max-width:1080px;margin:auto;padding:2rem}section{margin:1.7rem 0}.panel{background:white;border-radius:8px;box-shadow:0 4px 18px #16324f10;padding:1.25rem}
+h1,h2,h3{color:var(--navy);line-height:1.2}header h1{color:white}a{color:#1b658f;font-weight:700}code{background:#eef4f7;padding:.12rem .3rem;border-radius:4px}
+table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;box-shadow:0 4px 18px #16324f10}th,td{text-align:left;padding:.72rem;border-bottom:1px solid #e7edf3}th{background:#eaf2f8;color:var(--navy)}
+.figure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.figure-grid figure{margin:0;background:white;padding:1rem;border-radius:8px;box-shadow:0 4px 18px #16324f10}.figure-grid img{width:100%;height:auto}.notice{border-left:5px solid var(--orange);background:#fff8df;padding:1rem 1.2rem}
+footer{padding:2rem;text-align:center;color:var(--muted)} @media(max-width:700px){main{padding:1rem}.figure-grid{grid-template-columns:1fr}}
+</style></head><body>
+<header>
+<span class="badge">Doctoral research framing</span>
+<h1>Research Note</h1>
+<p>A development-finance research note connecting credit outreach, territorial access, poverty proxies and responsible risk governance.</p>
+<nav class="topnav"><a href="index.html">Dashboard</a><a href="project-overview.html">Project overview</a><a href="research-note.html">Research note</a><a href="technical-report.html">Technical report</a></nav>
+</header><main>
+<section class="panel">
+<h2>Abstract</h2>
+<p>Using branch-level credit portfolio data from 2012-03-01 to 2014-07-01, this project evaluates responsible portfolio expansion as a financial inclusion proxy. The analysis combines portfolio dynamics, mora monitoring, territorial balance, forecast validation and stress testing. Results show rapid growth in client outreach and portfolio scale, while preserving a strict distinction between credit-access proxies and causal poverty impacts.</p>
+<h2>Contribution</h2>
+<p>The project is designed as a professional bridge between senior data analytics and doctoral research preparation. It converts administrative credit data into a development-finance research object: who is being reached, whether access is territorially balanced, and whether growth is compatible with responsible risk management.</p>
+<h2>Research question</h2>
+<p>How can branch-level credit portfolio data be used to evaluate responsible financial inclusion, local development potential and inequality in access to formal credit?</p>
+<h2>Conceptual framework</h2>
+<p>The analysis relates three mechanisms that matter for poverty, inequality and economic development:</p>
+<ul>
+<li>Financial inclusion channel: more clients with formal credit access may support consumption smoothing, working-capital investment and resilience.</li>
+<li>Territorial equity channel: a more balanced branch footprint can reduce concentration of access in a single service point.</li>
+<li>Responsible-finance channel: portfolio growth is developmentally useful only if mora and risk signals remain controlled.</li>
+</ul>
+<h2>Methods</h2>
+<p>The analysis constructs a tidy branch-month panel from Excel workbooks, separates observed history from business projections, derives development-oriented KPIs, validates time-series forecasts through holdout testing and builds stress scenarios for risk governance.</p>
+<p>The empirical strategy is descriptive and diagnostic. It does not estimate a causal impact model because the source data do not contain household income, consumption, poverty status or randomized exposure. Instead, it produces research-ready indicators that could be merged later with municipal poverty statistics, household surveys or geocoded branch exposure.</p>
+<h2>Results</h2>
+<p>The global portfolio expanded from 109.8 to 69,850.2 thousand BOB, while clients increased from 18 to 3,827.</p>
+<p>The final client territorial balance score was 99%, suggesting reduced branch concentration between 16 de Julio and Ceja.</p>
+<p>The maximum observed global mora was 0.25%, supporting a responsible-growth interpretation during the observed period.</p>
+<p>The final responsible inclusion score for the Global portfolio was 98.2 out of 100, combining outreach, credit depth and risk discipline into a single governance signal.</p>
+<h2>Development interpretation</h2>
+<p>Credit outreach can support resilience and productive investment, but the source data do not include household welfare outcomes. The project therefore frames poverty and inequality through financial inclusion and territorial access proxies.</p>
+<p>For a doctoral application, the value of this design is methodological discipline: it shows how to move from operational data to a clear research question, define measurable proxies, document limitations and propose a credible path toward causal inference.</p>
+<p>For a senior data analyst application, the value is execution: the repository includes a reproducible R pipeline, processed datasets, forecast backtesting, stress testing, a dashboard, documented limitations and privacy controls.</p>
+<h2>Limitations</h2>
+<ul>
+<li>No household poverty, consumption or income outcomes are observed.</li>
+<li>No causal identification strategy is estimated.</li>
+<li>Small branch-level samples limit inference.</li>
+<li>Raw workbooks include personal names, so public analysis is limited to aggregated branch outputs.</li>
+<li>Credit growth can reflect demand, supply, pricing, risk appetite, macroeconomic conditions or branch operations; the repository does not attribute causality among those channels.</li>
+</ul>
+<h2>Proposed doctoral extension</h2>
+<p>A publishable next stage would add municipal poverty indicators, census covariates, household-survey welfare measures, branch geocodes and local economic controls. With those data, the analysis could move from descriptive portfolio diagnostics to event-study, difference-in-differences or synthetic-control designs.</p>
+<h2>Next research step</h2>
+<p>A doctoral extension would geocode branches, add municipal poverty indicators or household survey data, and estimate exposure effects with event-study, difference-in-differences or synthetic-control designs.</p>
+</section>
+</main><footer>Generated from scripts/01_run_analysis.R with privacy-aware branch-level outputs.</footer></body></html>

@@ -80,6 +80,125 @@ table_html <- function(df, digits = 2, max_rows = 20) {
   paste0("<table><thead><tr>", header, "</tr></thead><tbody>", paste(rows, collapse = "\n"), "</tbody></table>")
 }
 
+inline_markdown_html <- function(x) {
+  x <- html_escape(x)
+  x <- gsub("`([^`]+)`", "<code>\\1</code>", x, perl = TRUE)
+  x <- gsub("\\[([^\\]]+)\\]\\(([^\\)]+)\\)", "<a href=\"\\2\">\\1</a>", x, perl = TRUE)
+  x
+}
+
+markdown_to_html <- function(lines) {
+  out <- character()
+  in_ul <- FALSE
+  in_ol <- FALSE
+  in_pre <- FALSE
+
+  close_lists <- function() {
+    if (in_ul) {
+      out <<- c(out, "</ul>")
+      in_ul <<- FALSE
+    }
+    if (in_ol) {
+      out <<- c(out, "</ol>")
+      in_ol <<- FALSE
+    }
+  }
+
+  for (line in lines) {
+    trimmed <- trimws(line)
+    if (startsWith(trimmed, "```")) {
+      close_lists()
+      if (in_pre) {
+        out <- c(out, "</code></pre>")
+        in_pre <- FALSE
+      } else {
+        out <- c(out, "<pre><code>")
+        in_pre <- TRUE
+      }
+      next
+    }
+    if (in_pre) {
+      out <- c(out, html_escape(line))
+      next
+    }
+    if (trimmed == "") {
+      close_lists()
+      next
+    }
+    if (grepl("^###\\s+", trimmed)) {
+      close_lists()
+      out <- c(out, paste0("<h3>", inline_markdown_html(sub("^###\\s+", "", trimmed)), "</h3>"))
+    } else if (grepl("^##\\s+", trimmed)) {
+      close_lists()
+      out <- c(out, paste0("<h2>", inline_markdown_html(sub("^##\\s+", "", trimmed)), "</h2>"))
+    } else if (grepl("^#\\s+", trimmed)) {
+      close_lists()
+      out <- c(out, paste0("<h1>", inline_markdown_html(sub("^#\\s+", "", trimmed)), "</h1>"))
+    } else if (grepl("^[-*]\\s+", trimmed)) {
+      if (in_ol) {
+        out <- c(out, "</ol>")
+        in_ol <- FALSE
+      }
+      if (!in_ul) {
+        out <- c(out, "<ul>")
+        in_ul <- TRUE
+      }
+      out <- c(out, paste0("<li>", inline_markdown_html(sub("^[-*]\\s+", "", trimmed)), "</li>"))
+    } else if (grepl("^[0-9]+\\.\\s+", trimmed)) {
+      if (in_ul) {
+        out <- c(out, "</ul>")
+        in_ul <- FALSE
+      }
+      if (!in_ol) {
+        out <- c(out, "<ol>")
+        in_ol <- TRUE
+      }
+      out <- c(out, paste0("<li>", inline_markdown_html(sub("^[0-9]+\\.\\s+", "", trimmed)), "</li>"))
+    } else {
+      close_lists()
+      out <- c(out, paste0("<p>", inline_markdown_html(trimmed), "</p>"))
+    }
+  }
+  close_lists()
+  if (in_pre) out <- c(out, "</code></pre>")
+  out
+}
+
+site_page <- function(title, kicker, lead, body_html) {
+  c(
+    "<!doctype html>",
+    "<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">",
+    paste0("<title>", html_escape(title), "</title>"),
+    "<style>",
+    ":root{--navy:#16324f;--teal:#00a6a6;--orange:#f28f3b;--red:#b23a48;--ink:#17202a;--muted:#62717f;--paper:#f5f7f9;--card:#ffffff}",
+    "*{box-sizing:border-box} body{margin:0;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}",
+    "header{background:linear-gradient(135deg,var(--navy),#2f6b9a);color:white;padding:3.2rem max(6vw,2rem) 3.8rem}",
+    "header p{max-width:900px;font-size:1.08rem}.badge{display:inline-block;background:var(--orange);color:#17202a;padding:.35rem .7rem;border-radius:999px;font-weight:800}",
+    ".topnav a{display:inline-block;margin:.7rem .55rem 0 0;padding:.66rem .9rem;border:2px solid white;border-radius:8px;color:white;text-decoration:none;font-weight:750}",
+    "main{max-width:1080px;margin:auto;padding:2rem}section{margin:1.7rem 0}.panel{background:white;border-radius:8px;box-shadow:0 4px 18px #16324f10;padding:1.25rem}",
+    "h1,h2,h3{color:var(--navy);line-height:1.2}header h1{color:white}a{color:#1b658f;font-weight:700}code{background:#eef4f7;padding:.12rem .3rem;border-radius:4px}",
+    "table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;box-shadow:0 4px 18px #16324f10}th,td{text-align:left;padding:.72rem;border-bottom:1px solid #e7edf3}th{background:#eaf2f8;color:var(--navy)}",
+    ".figure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.figure-grid figure{margin:0;background:white;padding:1rem;border-radius:8px;box-shadow:0 4px 18px #16324f10}.figure-grid img{width:100%;height:auto}.notice{border-left:5px solid var(--orange);background:#fff8df;padding:1rem 1.2rem}",
+    "footer{padding:2rem;text-align:center;color:var(--muted)} @media(max-width:700px){main{padding:1rem}.figure-grid{grid-template-columns:1fr}}",
+    "</style></head><body>",
+    "<header>",
+    paste0("<span class=\"badge\">", html_escape(kicker), "</span>"),
+    paste0("<h1>", html_escape(title), "</h1>"),
+    paste0("<p>", html_escape(lead), "</p>"),
+    "<nav class=\"topnav\"><a href=\"index.html\">Dashboard</a><a href=\"project-overview.html\">Project overview</a><a href=\"research-note.html\">Research note</a><a href=\"technical-report.html\">Technical report</a></nav>",
+    "</header><main>",
+    body_html,
+    "</main><footer>Generated from scripts/01_run_analysis.R with privacy-aware branch-level outputs.</footer></body></html>"
+  )
+}
+
+write_markdown_page <- function(markdown_lines, path, title, kicker, lead) {
+  body_lines <- markdown_lines
+  if (length(body_lines) > 0 && grepl("^#\\s+", body_lines[1])) body_lines <- body_lines[-1]
+  body <- c("<section class=\"panel\">", markdown_to_html(body_lines), "</section>")
+  writeLines(site_page(title, kicker, lead, body), path, useBytes = TRUE)
+}
+
 read_pp_sheet <- function(sheet, branch) {
   raw <- read_xlsx(main_file, sheet = sheet, col_names = FALSE, .name_repair = "minimal")
   raw <- raw[, 1:6]
@@ -738,7 +857,7 @@ dashboard_html <- c(
   "<span class=\"badge\">Responsible finance and development analytics</span>",
   paste0("<h1>", html_escape(project_title), "</h1>"),
   "<p>A reproducible credit-portfolio dashboard connecting branch expansion, risk governance, financial inclusion, territorial inequality and development economics. Results are portfolio-access proxies, not causal poverty estimates.</p>",
-  "<div class=\"links\"><a href=\"../README.md\">Repository README</a><a href=\"../reports/research-paper.md\">Research note</a><a href=\"../reports/technical-report.md\">Technical report</a></div>",
+  "<div class=\"links\"><a href=\"project-overview.html\">Project overview</a><a href=\"research-note.html\">Research note</a><a href=\"technical-report.html\">Technical report</a></div>",
   "</header>",
   "<main>",
   "<section class=\"cards\">",
@@ -884,19 +1003,33 @@ writeLines(brief_lines, file.path(paths$root_reports, "executive-summary.md"), u
 write_csv_base(model_backtesting, file.path(paths$root_reports, "model_results.csv"))
 
 technical_report <- c(
-  "# Technical Report",
+  "# Technical Report: Inclusive Credit Risk Analytics Bolivia",
   "",
-  "## Scope",
+  "## Executive technical summary",
   "",
-  "This report extends the original credit portfolio analysis with reproducible diagnostics for branch expansion, financial inclusion proxies, mora risk, forecast validation and stress testing.",
+  paste0(
+    "This report documents a reproducible branch-level analytics pipeline for a Bolivian microfinance portfolio observed from ",
+    fmt_date(global_summary$start_date), " to ", fmt_date(global_summary$last_observed_date),
+    ". The pipeline transforms operational Excel workbooks into a tidy analytical panel, validates forecast models, monitors mora risk, and reframes portfolio expansion as a financial-inclusion and territorial-access problem."
+  ),
+  "",
+  paste0(
+    "At the global level, active portfolio increased from ", fmt_num(global_summary$portfolio_start_kbob, 1),
+    " to ", fmt_num(global_summary$portfolio_last_kbob, 1), " thousand BOB, while clients increased from ",
+    fmt_num(global_summary$clients_start, 0), " to ", fmt_num(global_summary$clients_last, 0),
+    ". The maximum observed global mora rate was ", fmt_pct(global_summary$mora_max, 0.01),
+    ", so the core analytical question is not only growth, but whether growth remained responsible and territorially balanced."
+  ),
   "",
   "## Data model",
   "",
   "- Observed panel: branch-month records with portfolio, disbursements, clients and mora.",
   "- Projection panel: workbook business assumptions kept separate from observed history.",
+  "- Branch dimension: 16 de Julio, Ceja, and a constructed Global portfolio view.",
+  "- Development layer: outreach, credit depth, territorial balance and risk-adjusted inclusion metrics.",
   "- Privacy rule: officer-level names remain only in raw workbooks; public analytical outputs are branch-level.",
   "",
-  "## Deepened analytical modules",
+  "## Analytical modules",
   "",
   "1. Branch maturity profile: launch, scale-up and consolidation stages.",
   "2. Risk-growth positioning: monthly portfolio growth against mora.",
@@ -906,36 +1039,78 @@ technical_report <- c(
   "6. Stress testing: responsible inclusion, tightening, high-growth and mora-shock scenarios.",
   "7. Policy decision matrix: branch-level strategic priorities and development interpretation.",
   "",
+  "## Forecasting design",
+  "",
+  paste0(
+    "The pipeline compares Naive, ETS and ARIMA models on a holdout window and ranks models by forecast error. ",
+    "For the Global portfolio, the best model by holdout error is ", best_global_model,
+    ". The purpose is governance-grade model comparison rather than a black-box forecast."
+  ),
+  "",
+  "## Risk and stress-testing design",
+  "",
+  "Stress scenarios are expressed as analytical governance cases, not predictions. They test how portfolio size, client outreach and mora risk would behave under responsible inclusion, credit tightening, high-growth risk and mora-shock assumptions.",
+  "",
+  "## Development economics interpretation",
+  "",
+  "The technical contribution is to connect credit-risk analytics with poverty, inequality and development without overclaiming causality. Client outreach is treated as a formal financial-inclusion proxy. Territorial balance is treated as an inequality-of-access proxy. Mora control is treated as a responsible-finance safeguard.",
+  "",
   "## Key statistical caution",
   "",
   "The monthly sample is small and branch-level. Correlations and model diagnostics are useful for governance and hypothesis generation, but they are not causal estimates of poverty reduction or welfare impact.",
   "",
+  "## Quality and privacy controls",
+  "",
+  "- Raw operational files are preserved under `data/raw/`.",
+  "- Processed files are regenerated by `scripts/01_run_analysis.R`.",
+  "- Public outputs exclude officer-level personal names.",
+  "- Observed history and workbook projections are kept separate.",
+  "- Forecasts are validated before being used in the dashboard narrative.",
+  "",
   "## Main outputs",
   "",
   "- `docs/index.html`: dashboard ready for GitHub Pages.",
+  "- `docs/research-note.html`: public research-note page served by GitHub Pages.",
+  "- `docs/technical-report.html`: public technical-report page served by GitHub Pages.",
   "- `outputs/tables/risk_return_matrix.csv`: branch risk-growth diagnostics.",
   "- `outputs/tables/forecast_vs_business_plan.csv`: model-vs-plan gap analysis.",
   "- `outputs/tables/stress_test_scenarios.csv`: 12-month stress testing.",
-  "- `outputs/tables/policy_decision_matrix.csv`: strategic interpretation table."
+  "- `outputs/tables/policy_decision_matrix.csv`: strategic interpretation table.",
+  "- `reports/model_results.csv`: compact model results for senior analyst review.",
+  "- `reports/references.bib`: citation file for the development-finance framing."
 )
 
 writeLines(technical_report, file.path(paths$root_reports, "technical-report.md"), useBytes = TRUE)
 
 research_paper <- c(
-  "# Inclusive Credit, Risk Governance and Territorial Access in Bolivia",
+  "# Research Note: Inclusive Credit, Risk Governance and Territorial Access in Bolivia",
   "",
   "## Abstract",
   "",
   paste0("Using branch-level credit portfolio data from ", fmt_date(global_summary$start_date), " to ",
          fmt_date(global_summary$last_observed_date), ", this project evaluates responsible portfolio expansion as a financial inclusion proxy. The analysis combines portfolio dynamics, mora monitoring, territorial balance, forecast validation and stress testing. Results show rapid growth in client outreach and portfolio scale, while preserving a strict distinction between credit-access proxies and causal poverty impacts."),
   "",
+  "## Contribution",
+  "",
+  "The project is designed as a professional bridge between senior data analytics and doctoral research preparation. It converts administrative credit data into a development-finance research object: who is being reached, whether access is territorially balanced, and whether growth is compatible with responsible risk management.",
+  "",
   "## Research question",
   "",
   "How can branch-level credit portfolio data be used to evaluate responsible financial inclusion, local development potential and inequality in access to formal credit?",
   "",
+  "## Conceptual framework",
+  "",
+  "The analysis relates three mechanisms that matter for poverty, inequality and economic development:",
+  "",
+  "- Financial inclusion channel: more clients with formal credit access may support consumption smoothing, working-capital investment and resilience.",
+  "- Territorial equity channel: a more balanced branch footprint can reduce concentration of access in a single service point.",
+  "- Responsible-finance channel: portfolio growth is developmentally useful only if mora and risk signals remain controlled.",
+  "",
   "## Methods",
   "",
   "The analysis constructs a tidy branch-month panel from Excel workbooks, separates observed history from business projections, derives development-oriented KPIs, validates time-series forecasts through holdout testing and builds stress scenarios for risk governance.",
+  "",
+  "The empirical strategy is descriptive and diagnostic. It does not estimate a causal impact model because the source data do not contain household income, consumption, poverty status or randomized exposure. Instead, it produces research-ready indicators that could be merged later with municipal poverty statistics, household surveys or geocoded branch exposure.",
   "",
   "## Results",
   "",
@@ -946,10 +1121,16 @@ research_paper <- c(
          ", suggesting reduced branch concentration between 16 de Julio and Ceja."),
   paste0("The maximum observed global mora was ", fmt_pct(global_summary$mora_max, 0.01),
          ", supporting a responsible-growth interpretation during the observed period."),
+  paste0("The final responsible inclusion score for the Global portfolio was ", fmt_num(global_responsible_score, 1),
+         " out of 100, combining outreach, credit depth and risk discipline into a single governance signal."),
   "",
   "## Development interpretation",
   "",
   "Credit outreach can support resilience and productive investment, but the source data do not include household welfare outcomes. The project therefore frames poverty and inequality through financial inclusion and territorial access proxies.",
+  "",
+  "For a doctoral application, the value of this design is methodological discipline: it shows how to move from operational data to a clear research question, define measurable proxies, document limitations and propose a credible path toward causal inference.",
+  "",
+  "For a senior data analyst application, the value is execution: the repository includes a reproducible R pipeline, processed datasets, forecast backtesting, stress testing, a dashboard, documented limitations and privacy controls.",
   "",
   "## Limitations",
   "",
@@ -957,6 +1138,11 @@ research_paper <- c(
   "- No causal identification strategy is estimated.",
   "- Small branch-level samples limit inference.",
   "- Raw workbooks include personal names, so public analysis is limited to aggregated branch outputs.",
+  "- Credit growth can reflect demand, supply, pricing, risk appetite, macroeconomic conditions or branch operations; the repository does not attribute causality among those channels.",
+  "",
+  "## Proposed doctoral extension",
+  "",
+  "A publishable next stage would add municipal poverty indicators, census covariates, household-survey welfare measures, branch geocodes and local economic controls. With those data, the analysis could move from descriptive portfolio diagnostics to event-study, difference-in-differences or synthetic-control designs.",
   "",
   "## Next research step",
   "",
@@ -964,6 +1150,22 @@ research_paper <- c(
 )
 
 writeLines(research_paper, file.path(paths$root_reports, "research-paper.md"), useBytes = TRUE)
+
+write_markdown_page(
+  research_paper,
+  file.path(paths$docs, "research-note.html"),
+  "Research Note",
+  "Doctoral research framing",
+  "A development-finance research note connecting credit outreach, territorial access, poverty proxies and responsible risk governance."
+)
+
+write_markdown_page(
+  technical_report,
+  file.path(paths$docs, "technical-report.html"),
+  "Technical Report",
+  "Senior analytics documentation",
+  "A technical view of the reproducible pipeline, data model, forecast validation, stress testing and privacy controls."
+)
 
 reporting_checklist <- c(
   "# Responsible Reporting Checklist",
@@ -1011,6 +1213,14 @@ readme_lines <- c(
   "",
   paste0("**Explore the live analytical dashboard:** [", dashboard_url, "](", dashboard_url, ")"),
   "",
+  paste0("**Public pages:** [Project overview](", dashboard_url, "project-overview.html) | [Research note](", dashboard_url, "research-note.html) | [Technical report](", dashboard_url, "technical-report.html)"),
+  "",
+  "## Executive summary",
+  "",
+  "This repository is a polished portfolio case for doctoral and senior data analyst applications. It starts from messy operational Excel workbooks, builds a reproducible R pipeline, produces cleaned panels and analytical tables, validates forecasts, stress-tests portfolio risk, and communicates the results through a GitHub Pages dashboard.",
+  "",
+  "The substantive framing is development finance: portfolio growth is interpreted through responsible financial inclusion, territorial access and inequality-of-access proxies. The project is careful not to claim poverty reduction without household welfare data, which makes the analytical argument stronger and more credible.",
+  "",
   "## Research question",
   "",
   "How can branch-level credit portfolio data be used to evaluate responsible financial inclusion, local development potential, and inequality in access to formal credit?",
@@ -1034,7 +1244,7 @@ readme_lines <- c(
   "```text",
   "data/raw/                 Original Excel workbooks",
   "data/processed/           Tidy panels generated by the R pipeline",
-  "docs/                     GitHub Pages dashboard, methodology and development lens",
+  "docs/                     GitHub Pages dashboard, public HTML reports and methodology",
   "docs/figures/             Dashboard-ready visual outputs",
   "outputs/figures/          Charts generated from the analysis",
   "outputs/tables/           KPI, model, and quality-control tables",
@@ -1077,14 +1287,17 @@ readme_lines <- c(
   "",
   "## Documentation",
   "",
-  "- [Methodology](docs/methodology.md)",
-  "- [Data dictionary](docs/data_dictionary.md)",
-  "- [Development lens](docs/development_lens.md)",
-  "- [Research extension plan](docs/research_extension.md)",
-  "- [Live dashboard source](docs/index.html)",
-  "- [Technical report](reports/technical-report.md)",
-  "- [Research note](reports/research-paper.md)",
-  "- [Responsible reporting checklist](reports/REPORTING-checklist.md)",
+  paste0("- [Live dashboard](", dashboard_url, ")"),
+  paste0("- [Project overview - web page](", dashboard_url, "project-overview.html)"),
+  paste0("- [Research note - web page](", dashboard_url, "research-note.html)"),
+  paste0("- [Technical report - web page](", dashboard_url, "technical-report.html)"),
+  "- [Methodology - GitHub source](docs/methodology.md)",
+  "- [Data dictionary - GitHub source](docs/data_dictionary.md)",
+  "- [Development lens - GitHub source](docs/development_lens.md)",
+  "- [Research extension plan - GitHub source](docs/research_extension.md)",
+  "- [Technical report - Markdown source](reports/technical-report.md)",
+  "- [Research note - Markdown source](reports/research-paper.md)",
+  "- [Responsible reporting checklist - Markdown source](reports/REPORTING-checklist.md)",
   "",
   "## Reproduce",
   "",
@@ -1105,5 +1318,70 @@ readme_lines <- c(
 )
 
 writeLines(readme_lines, file.path(repo_root, "README.md"), useBytes = TRUE)
+
+overview_kpis <- data.frame(
+  Metric = c(
+    "Observed period",
+    "Global portfolio",
+    "Global clients",
+    "Maximum global mora",
+    "Territorial client balance",
+    "Responsible inclusion score",
+    "Best global forecast model"
+  ),
+  Value = c(
+    paste0(fmt_date(global_summary$start_date), " to ", fmt_date(global_summary$last_observed_date)),
+    paste0(fmt_num(global_summary$portfolio_start_kbob, 1), " to ", fmt_num(global_summary$portfolio_last_kbob, 1), " thousand BOB"),
+    paste0(fmt_num(global_summary$clients_start, 0), " to ", fmt_num(global_summary$clients_last, 0)),
+    fmt_pct(global_summary$mora_max, 0.01),
+    paste0(fmt_pct(balance_first$clients_balance_score, 1), " to ", fmt_pct(balance_last$clients_balance_score, 1)),
+    paste0(fmt_num(global_responsible_score, 1), " / 100"),
+    best_global_model
+  )
+)
+
+project_overview_body <- c(
+  "<section class=\"panel\">",
+  "<h2>Executive reading</h2>",
+  "<p>This project is built for a GitHub portfolio that must speak to two audiences at once: a doctoral committee interested in development economics and a senior data analytics recruiter interested in reproducibility, risk governance and clear communication.</p>",
+  "<p>The analysis links credit-portfolio expansion with financial inclusion, poverty and inequality through cautious proxies: client outreach, territorial balance, credit depth and mora discipline. It does not claim causal poverty reduction without household welfare data.</p>",
+  "</section>",
+  "<section>",
+  "<h2>Key metrics</h2>",
+  table_html(overview_kpis, digits = 2),
+  "</section>",
+  "<section class=\"panel\">",
+  "<h2>What the project demonstrates</h2>",
+  "<ul>",
+  "<li>End-to-end data work: raw Excel ingestion, cleaning, tidy panels, tables, figures, reports and dashboard publication.</li>",
+  "<li>Senior analytics discipline: backtested forecasts, stress scenarios, diagnostic tables and decision-oriented outputs.</li>",
+  "<li>Research discipline: explicit question, conceptual framework, limitations and a path toward causal identification.</li>",
+  "<li>Responsible public reporting: officer-level names remain outside processed public outputs.</li>",
+  "</ul>",
+  "</section>",
+  "<section>",
+  "<h2>Visual evidence</h2>",
+  "<div class=\"figure-grid\">",
+  "<figure><img src=\"figures/portfolio_expansion.png\" alt=\"Portfolio expansion\"><figcaption>Portfolio expansion</figcaption></figure>",
+  "<figure><img src=\"figures/territorial_balance.png\" alt=\"Territorial balance\"><figcaption>Territorial balance</figcaption></figure>",
+  "<figure><img src=\"figures/risk_growth_positioning.png\" alt=\"Risk growth positioning\"><figcaption>Risk-growth positioning</figcaption></figure>",
+  "<figure><img src=\"figures/stress_test_scenarios.png\" alt=\"Stress testing\"><figcaption>Stress testing</figcaption></figure>",
+  "</div>",
+  "</section>",
+  "<section class=\"notice\">",
+  "<strong>Interpretation guardrail:</strong> these are financial-inclusion and territorial-access indicators. A full welfare-impact study would require household income, poverty or consumption data plus a credible identification strategy.",
+  "</section>"
+)
+
+writeLines(
+  site_page(
+    "Project Overview",
+    "Portfolio case overview",
+    "A concise public overview of the analytical contribution, senior data workflow and development-economics framing.",
+    project_overview_body
+  ),
+  file.path(paths$docs, "project-overview.html"),
+  useBytes = TRUE
+)
 
 message("Analysis complete. Outputs written to: ", repo_root)
