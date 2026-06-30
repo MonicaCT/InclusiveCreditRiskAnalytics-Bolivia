@@ -13,6 +13,17 @@ Professional portfolio project using branch-level microfinance data from Bolivia
 
 **Public pages:** [Project overview](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/project-overview.html) | [Research note](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/research-note.html) | [Technical report](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/technical-report.html)
 
+## Portfolio classification
+
+| Dimension | Classification |
+|---|---|
+| Primary lab | Data Analytics Lab |
+| Secondary labs | Applied Economics Lab; Research Methods Lab; Open Science Lab |
+| Domain | Financial inclusion; credit risk; development analytics |
+| Methods | Portfolio forecasting; stress testing; KPI design; territorial balance metrics |
+| Tools | R; Quarto; GitHub Pages; reproducible pipeline |
+| Portfolio role | Demonstrates decision-oriented financial analytics with a development economics lens. |
+
 ## Executive summary
 
 This project transforms operational credit portfolio records into a structured analytical framework for understanding portfolio dynamics, financial inclusion patterns, territorial distribution, credit risk, and portfolio sustainability.
