@@ -2,11 +2,11 @@
 
 Repository: `InclusiveCreditRiskAnalytics-Bolivia`
 
-Scope: document-only review of `data/raw/*.xlsx` files requested during the final portfolio cleanup. No raw files were deleted, moved, transformed or recalculated.
+Scope: conservative public-data review of `data/raw/*.xlsx` files. No raw files were deleted, moved, transformed or recalculated; they were removed only from Git tracking so local copies remain on the machine.
 
 ## Summary
 
-The raw Excel files appear to be project input workbooks and rebuilt preliminary-report workbooks used by the credit-risk analytics pipeline. The public README states that the raw files include officer-level names and that public outputs exclude personal names. Because officer-level names can be personally identifying in a branch-level operational dataset, these files require manual provenance and privacy review before any future repository renaming, release, DOI deposit or doctoral upgrade.
+The raw Excel files appear to be project input workbooks and rebuilt preliminary-report workbooks used by the credit-risk analytics pipeline. The public README states that the raw files include officer-level names and that public outputs exclude personal names. Because officer-level names can be personally identifying in a branch-level operational dataset, these files have been removed from public Git tracking and must remain local unless explicit authorization for redistribution is documented.
 
 ## File-level review
 
@@ -19,10 +19,11 @@ The raw Excel files appear to be project input workbooks and rebuilt preliminary
 
 ## Decision
 
-- Do not delete or move the existing files in this cleanup phase.
-- Do not publish a release or DOI for this repository until provenance is documented.
+- Keep the existing files locally; do not delete, move, transform or recalculate them.
+- Remove the four Excel workbooks from public Git tracking.
+- Ignore future raw workbook files with `.gitignore`, while keeping `data/raw/README.md` and `data/raw/.gitkeep` visible.
 - Treat the files as requiring manual review because current public documentation says raw files include officer-level names.
-- Future public versions should prefer sanitized sample files under a clearly named sample directory, with original operational workbooks kept outside Git and listed in `.gitignore`.
+- Future public versions should prefer sanitized sample files under a clearly named sample directory, with original operational workbooks kept outside Git.
 
 ## Manual review checklist
 

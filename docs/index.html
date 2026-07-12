@@ -1,78 +1,43 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inclusive Credit Risk Analytics Bolivia</title>
 <style>
-:root{--navy:#16324f;--teal:#00a6a6;--orange:#f28f3b;--red:#b23a48;--ink:#17202a;--muted:#62717f;--paper:#f5f7f9;--card:#ffffff}
-*{box-sizing:border-box} body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--paper)}
-header{background:linear-gradient(135deg,var(--navy),#2f6b9a);color:white;padding:4.5rem max(6vw,2rem) 5rem}
-header p{max-width:850px;font-size:1.13rem}.badge{display:inline-block;background:var(--orange);color:#17202a;padding:.35rem .7rem;border-radius:999px;font-weight:800}
-.links a{display:inline-block;margin:.7rem .6rem 0 0;padding:.72rem 1rem;border:2px solid white;border-radius:8px;color:white;text-decoration:none;font-weight:750}
-main{max-width:1220px;margin:auto;padding:2rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:-4.5rem}
-.card{background:var(--card);padding:1.15rem;border-radius:12px;box-shadow:0 8px 24px #16324f18;border-top:4px solid var(--teal)}
-.card span{display:block;color:var(--muted)}.card strong{font-size:1.55rem;color:var(--navy)}
-.notice{margin:2rem 0;padding:1rem 1.2rem;background:#fff8df;border-left:5px solid var(--orange)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1.25rem}.wide{grid-column:1/-1}
-figure{margin:0;background:white;padding:1rem;border-radius:12px;box-shadow:0 4px 18px #16324f10} img{width:100%;height:auto} figcaption{font-weight:800;color:var(--navy)}
-section{margin:2rem 0} table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px #16324f10}
-th,td{text-align:left;padding:.75rem;border-bottom:1px solid #e7edf3}th{background:#eaf2f8;color:var(--navy)}
-footer{padding:2rem;text-align:center;color:var(--muted)} @media(max-width:700px){.grid{grid-template-columns:1fr}header{padding-top:3rem}}
-</style></head><body>
-<header>
-<span class="badge">Responsible finance and development analytics</span>
+:root{--ink:#1F2933;--background:#F7F5F0;--red:#B23A48;--teal:#1F7A8C;--blue:#2F5F8F;--orange:#E58F2A;--green:#5E7D68;--gray:#D9DDE3;--card:#fffdf8}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--background)}
+header{padding:3.5rem max(6vw,1.25rem) 2.5rem;border-bottom:1px solid var(--gray);background:#fffdf8} h1{margin:.3rem 0;font-size:clamp(2rem,4vw,4.2rem);line-height:1.05} h2{font-size:1.65rem;margin:0 0 .7rem} h3{margin:.5rem 0}.eyebrow{color:var(--red);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.lede{max-width:900px;font-size:1.15rem}.links a{display:inline-block;margin:.45rem .45rem .15rem 0;padding:.62rem .82rem;border:1px solid var(--ink);border-radius:6px;color:var(--ink);text-decoration:none;font-weight:760;background:white}
+main{max-width:1180px;margin:auto;padding:1.5rem}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin:1rem 0}.kpi{background:white;border-top:4px solid var(--teal);padding:.9rem;border-radius:6px;box-shadow:0 2px 14px #1f293312}.kpi span{display:block;color:#5d6875;font-size:.9rem}.kpi strong{display:block;font-size:1.35rem;color:var(--blue)}
+section{padding:2rem 0;border-bottom:1px solid var(--gray)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.wide{grid-column:1/-1} figure{margin:0;background:white;border:1px solid var(--gray);border-radius:6px;padding:.9rem} img{width:100%;height:auto;display:block} figcaption{font-weight:800;margin-top:.55rem;color:var(--blue)} p.note{font-size:.92rem;color:#59636f;margin:.3rem 0 0}.table-wrap{overflow:auto;background:white;border:1px solid var(--gray);border-radius:6px} table{width:100%;border-collapse:collapse;min-width:720px} th,td{text-align:left;padding:.65rem;border-bottom:1px solid #eceff3} th{background:#edf2f7;color:var(--blue)} .callout{border-left:5px solid var(--orange);padding:1rem;background:white;margin:1rem 0}.footer{padding:2rem;text-align:center;color:#67717d}@media(max-width:760px){main{padding:1rem}.grid{grid-template-columns:1fr}.links a{display:block;width:100%} table{min-width:620px}}
+</style>
+</head>
+<body>
+<header id="top">
+<div class="eyebrow">Responsible finance and development analytics</div>
 <h1>Inclusive Credit Risk Analytics Bolivia</h1>
-<p>A reproducible credit-portfolio dashboard connecting branch expansion, risk governance, financial inclusion, territorial inequality and development economics. Results are portfolio-access proxies, not causal poverty estimates.</p>
-<div class="links"><a href="project-overview.html">Project overview</a><a href="research-note.html">Research note</a><a href="technical-report.html">Technical report</a></div>
+<p class="lede">Branch-level credit portfolio analytics for monitoring growth, financial inclusion, risk, forecasting and stress scenarios in Bolivia through a reproducible decision-support workflow.</p>
+<nav class="links"><a href="#executive-overview">Executive overview</a><a href="#growth-inclusion">Growth and inclusion</a><a href="#portfolio-quality">Portfolio quality</a><a href="#branch-performance">Branch performance</a><a href="#forecasting">Forecasting</a><a href="#stress-testing">Stress testing</a></nav>
 </header>
 <main>
-<section class="cards">
-<article class="card"><span>Observed period</span><strong>2012-03-01 to 2014-07-01</strong></article>
-<article class="card"><span>Global clients reached</span><strong>3,827</strong></article>
-<article class="card"><span>Global active portfolio</span><strong>69,850.2k BOB</strong></article>
-<article class="card"><span>Max global mora</span><strong>0.25%</strong></article>
-<article class="card"><span>Client territorial balance</span><strong>99%</strong></article>
-<article class="card"><span>Best global forecast</span><strong>ARIMA</strong></article>
+<section id="executive-overview">
+<h2>Executive Overview</h2>
+<div class="kpis"><article class="kpi"><span>Total portfolio</span><strong>69,850.2 kBOB</strong></article><article class="kpi"><span>Clients</span><strong>3,827</strong></article><article class="kpi"><span>Delinquency</span><strong>0.18%</strong></article><article class="kpi"><span>Monthly growth</span><strong>3.1%</strong></article><article class="kpi"><span>Average balance</span><strong>18,251.9 BOB</strong></article><article class="kpi"><span>Responsible inclusion</span><strong>98.2 / 100</strong></article></div>
+<div class="callout"><strong>Privacy guardrail:</strong> raw Excel workbooks are excluded from public tracking. Public outputs use processed branch-level or aggregate indicators only.</div>
+<div class="table-wrap"><table><thead><tr><th>indicator</th><th>initial_value</th><th>final_value</th><th>absolute_change</th><th>percentage_change</th><th>interpretation</th></tr></thead><tbody>
+<tr><td>Total portfolio</td><td>109.8 kBOB</td><td>69,850.2 kBOB</td><td>69,740.3 kBOB</td><td>63,496.5%</td><td>Strong portfolio expansion.</td></tr>
+<tr><td>Clients</td><td>18</td><td>3,827</td><td>3,809</td><td>21,161.1%</td><td>Outreach increased substantially.</td></tr>
+<tr><td>Average balance</td><td>6,101.9 BOB</td><td>18,251.9 BOB</td><td>12,150.1 BOB</td><td>199.1%</td><td>Credit depth increased.</td></tr>
+<tr><td>Delinquency</td><td>0.0%</td><td>0.18%</td><td>0.18 pp</td><td>n/a</td><td>Final observed risk remained low.</td></tr>
+<tr><td>Territorial balance</td><td>0.0%</td><td>98.6%</td><td>98.6 pp</td><td>n/a</td><td>Branch client distribution became balanced.</td></tr>
+<tr><td>Responsible inclusion score</td><td>20.3</td><td>98.2</td><td>78.0</td><td>384.4%</td><td>Growth remained compatible with responsible-inclusion monitoring.</td></tr>
+</tbody></table></div>
 </section>
-<aside class="notice"><strong>Interpretation guardrail:</strong> this dashboard measures formal credit outreach, territorial access and responsible-finance risk. Poverty and inequality are interpreted through financial-inclusion proxies because the source data do not include household income, consumption or welfare outcomes.</aside>
-<section><h2>Analytical narrative</h2><div class="grid">
-<figure class="wide"><img src="figures/portfolio_expansion.png" alt="Portfolio expansion"><figcaption>Portfolio expansion and workbook projection by branch</figcaption></figure>
-<figure><img src="figures/inclusion_credit_depth.png" alt="Inclusion and credit depth"><figcaption>Client reach and credit depth</figcaption></figure>
-<figure><img src="figures/mora_risk_monitor.png" alt="Mora risk monitor"><figcaption>Responsible growth risk monitor</figcaption></figure>
-<figure><img src="figures/territorial_balance.png" alt="Territorial balance"><figcaption>Territorial balance as inequality proxy</figcaption></figure>
-<figure><img src="figures/risk_growth_positioning.png" alt="Risk growth positioning"><figcaption>Risk-growth positioning</figcaption></figure>
-<figure><img src="figures/responsible_inclusion_score.png" alt="Responsible inclusion score"><figcaption>Responsible inclusion score</figcaption></figure>
-<figure><img src="figures/global_forecast_vs_projection.png" alt="Forecast versus projection"><figcaption>Forecast versus business projection</figcaption></figure>
-<figure><img src="figures/forecast_plan_gap.png" alt="Forecast plan gap"><figcaption>Business-plan gap against model forecast</figcaption></figure>
-<figure class="wide"><img src="figures/stress_test_scenarios.png" alt="Stress test scenarios"><figcaption>Stress-tested risk-weighted growth</figcaption></figure>
-</div></section>
-<section><h2>Branch diagnostic summary</h2>
-<table><thead><tr><th>branch</th><th>strategic_priority</th><th>development_interpretation</th><th>risk_adjusted_outreach_score</th><th>mean_monthly_portfolio_growth</th><th>mean_mora</th><th>max_mora</th><th>final_clients</th></tr></thead><tbody><tr><td>16 de Julio</td><td>Scale outreach while preserving underwriting discipline</td><td>Mature access node with visible risk-management needs</td><td>45.508</td><td>0.319</td><td>0.002</td><td>0.010</td><td>1,685</td></tr>
-<tr><td>Ceja</td><td>Scale outreach while preserving underwriting discipline</td><td>Territorial diversification node for access equity</td><td>62.529</td><td>0.434</td><td>0.000</td><td>0.002</td><td>2,142</td></tr>
-<tr><td>Global</td><td>Scale outreach while preserving underwriting discipline</td><td>Portfolio-wide inclusion frontier</td><td>97.505</td><td>0.371</td><td>0.001</td><td>0.002</td><td>3,827</td></tr></tbody></table>
-</section>
-<section><h2>Forecast model validation</h2>
-<table><thead><tr><th>branch</th><th>model</th><th>rmse</th><th>mae</th><th>mape</th></tr></thead><tbody><tr><td>16 de Julio</td><td>Naive</td><td>2,930.21</td><td>2,594.19</td><td>8.69</td></tr>
-<tr><td>16 de Julio</td><td>ETS</td><td>2,624.69</td><td>2,367.39</td><td>7.96</td></tr>
-<tr><td>16 de Julio</td><td>ARIMA</td><td>2,277.59</td><td>2,043.13</td><td>6.86</td></tr>
-<tr><td>Ceja</td><td>Naive</td><td>4,192.27</td><td>3,626.07</td><td>9.98</td></tr>
-<tr><td>Ceja</td><td>ETS</td><td>1,748.59</td><td>1,643.71</td><td>4.61</td></tr>
-<tr><td>Ceja</td><td>ARIMA</td><td>2,003.89</td><td>1,879.57</td><td>5.26</td></tr>
-<tr><td>Global</td><td>Naive</td><td>7,659.43</td><td>6,717.58</td><td>10.22</td></tr>
-<tr><td>Global</td><td>ETS</td><td>5,999.14</td><td>5,463.70</td><td>8.37</td></tr>
-<tr><td>Global</td><td>ARIMA</td><td>3,759.32</td><td>3,451.71</td><td>5.30</td></tr></tbody></table>
-</section>
-<section><h2>Stress testing scenarios</h2>
-<table><thead><tr><th>branch</th><th>scenario</th><th>ending_portfolio_kbob</th><th>ending_clients</th><th>stressed_mora_rate</th><th>risk_flag</th></tr></thead><tbody><tr><td>16 de Julio</td><td>Credit tightening</td><td>35,203.13</td><td>1,854.071</td><td>0.009</td><td>Green</td></tr>
-<tr><td>16 de Julio</td><td>High growth risk</td><td>62,863.01</td><td>2,546.151</td><td>0.018</td><td>Amber</td></tr>
-<tr><td>16 de Julio</td><td>Mora shock</td><td>42,015.66</td><td>2,014.617</td><td>0.027</td><td>Red</td></tr>
-<tr><td>16 de Julio</td><td>Responsible inclusion</td><td>47,207.28</td><td>2,266.138</td><td>0.011</td><td>Amber</td></tr>
-<tr><td>Ceja</td><td>Credit tightening</td><td>43,505.79</td><td>2,356.925</td><td>0.000</td><td>Green</td></tr>
-<tr><td>Ceja</td><td>High growth risk</td><td>77,689.26</td><td>3,236.709</td><td>0.000</td><td>Green</td></tr>
-<tr><td>Ceja</td><td>Mora shock</td><td>51,925.06</td><td>2,561.014</td><td>0.000</td><td>Green</td></tr>
-<tr><td>Ceja</td><td>Responsible inclusion</td><td>58,341.12</td><td>2,880.752</td><td>0.000</td><td>Green</td></tr>
-<tr><td>Global</td><td>Credit tightening</td><td>78,708.92</td><td>4,210.996</td><td>0.002</td><td>Green</td></tr>
-<tr><td>Global</td><td>High growth risk</td><td>140,552.27</td><td>5,782.860</td><td>0.003</td><td>Green</td></tr>
-<tr><td>Global</td><td>Mora shock</td><td>93,940.71</td><td>4,575.631</td><td>0.005</td><td>Green</td></tr>
-<tr><td>Global</td><td>Responsible inclusion</td><td>105,548.40</td><td>5,146.890</td><td>0.002</td><td>Green</td></tr></tbody></table>
-</section>
-<section><h2>Methodological position</h2><p>The analysis is deliberately association-based. It deepens the portfolio work with model validation, stress testing and early-warning diagnostics while preserving the original limitation: no causal poverty claim is made without socioeconomic outcome data and a credible identification strategy.</p></section>
-</main><footer>Generated from scripts/01_run_analysis.R with privacy-aware branch-level outputs.</footer></body></html>
+<section id="growth-inclusion"><h2>Growth and Inclusion</h2><div class="grid"><figure><img src="figures/portfolio_expansion.png" alt="Portfolio expansion"><figcaption>Total portfolio evolution</figcaption><p class="note">Period: 2012-03 to 2014-07. Unit: thousand BOB. Source: processed portfolio panel.</p></figure><figure><img src="figures/inclusion_credit_depth.png" alt="Client growth and credit depth"><figcaption>Client growth and credit depth</figcaption><p class="note">Unit: clients and BOB. Source: inclusion metrics panel.</p></figure><figure class="wide"><img src="figures/responsible_inclusion_score.png" alt="Responsible inclusion score"><figcaption>Portfolio and financial inclusion</figcaption><p class="note">Unit: score from 0 to 100. Source: processed inclusion metrics.</p></figure></div></section>
+<section id="portfolio-quality"><h2>Portfolio Quality</h2><div class="grid"><figure><img src="figures/mora_risk_monitor.png" alt="Delinquency monitor"><figcaption>Delinquency evolution</figcaption><p class="note">Unit: delinquency rate. Source: risk-adjusted panel.</p></figure><figure><img src="figures/risk_growth_positioning.png" alt="Growth risk positioning"><figcaption>Growth-risk positioning</figcaption><p class="note">Unit: growth and delinquency indicators. Source: risk-return matrix.</p></figure></div></section>
+<section id="branch-performance"><h2>Branch Performance</h2><div class="grid"><figure class="wide"><img src="figures/territorial_balance.png" alt="Territorial balance"><figcaption>Branch comparison and territorial balance</figcaption><p class="note">Unit: balance score. Source: territorial balance metrics.</p></figure></div><div class="table-wrap"><table><thead><tr><th>branch</th><th>portfolio</th><th>clients</th><th>average_balance</th><th>growth</th><th>delinquency_rate</th><th>portfolio_share</th><th>risk_flag</th></tr></thead><tbody><tr><td>16 de Julio</td><td>31,241.0 kBOB</td><td>1,685</td><td>18,540.6 BOB</td><td>31.9%</td><td>1.0%</td><td>44.7%</td><td>Amber</td></tr><tr><td>Ceja</td><td>38,609.2 kBOB</td><td>2,142</td><td>18,024.8 BOB</td><td>43.4%</td><td>-0.5%</td><td>55.3%</td><td>Green</td></tr></tbody></table></div></section>
+<section id="forecasting"><h2>Forecasting</h2><div class="grid"><figure class="wide"><img src="figures/global_forecast_vs_projection.png" alt="Observed versus projected forecast"><figcaption>Observed versus projected forecast</figcaption><p class="note">Unit: thousand BOB. Source: existing forecast outputs.</p></figure></div><div class="table-wrap"><table><thead><tr><th>model</th><th>mae</th><th>rmse</th><th>mape</th><th>ranking</th><th>selected_model</th></tr></thead><tbody><tr><td>Global ARIMA</td><td>3,451.7</td><td>3,759.3</td><td>5.30%</td><td>1</td><td>Yes</td></tr><tr><td>Global ETS</td><td>5,463.7</td><td>5,999.1</td><td>8.37%</td><td>2</td><td>No</td></tr><tr><td>Global Naive</td><td>6,717.6</td><td>7,659.4</td><td>10.22%</td><td>3</td><td>No</td></tr></tbody></table></div></section>
+<section id="stress-testing"><h2>Stress Testing</h2><div class="grid"><figure class="wide"><img src="figures/stress_test_scenarios.png" alt="Stress scenarios"><figcaption>Stress scenarios</figcaption><p class="note">Unit: thousand BOB and risk flags. Source: existing stress-test output.</p></figure></div><div class="table-wrap"><table><thead><tr><th>scenario</th><th>assumption</th><th>portfolio_effect</th><th>delinquency_effect</th><th>risk_level</th><th>recommended_action</th></tr></thead><tbody><tr><td>Credit tightening</td><td>12-month existing stress assumption</td><td>78,708.9 kBOB</td><td>0.16%</td><td>Green</td><td>Lower access expansion but more conservative risk posture.</td></tr><tr><td>High growth risk</td><td>12-month existing stress assumption</td><td>140,552.3 kBOB</td><td>0.33%</td><td>Green</td><td>Fast outreach that requires stronger risk governance.</td></tr><tr><td>Mora shock</td><td>12-month existing stress assumption</td><td>93,940.7 kBOB</td><td>0.48%</td><td>Green</td><td>Stress case to test resilience of responsible finance.</td></tr><tr><td>Responsible inclusion</td><td>12-month existing stress assumption</td><td>105,548.4 kBOB</td><td>0.19%</td><td>Green</td><td>Balanced outreach with controlled risk.</td></tr></tbody></table></div></section>
+</main><div class="footer">Inclusive Credit Risk Analytics Bolivia - public dashboard uses branch-level and aggregate outputs only.</div>
+</body>
+</html>

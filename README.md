@@ -1,26 +1,37 @@
 # Inclusive Credit Risk Analytics Bolivia
 
-**Responsible financial-inclusion analytics, credit-risk monitoring and reproducible decision-support tools for Bolivia**
+Branch-level credit portfolio analytics for monitoring growth, financial inclusion, risk, forecasting and stress scenarios in Bolivia through a reproducible decision-support workflow.
 
-[![Reproducible analysis](https://img.shields.io/badge/analysis-reproducible-00A6A6)](#reproduce)
-[![Responsible finance](https://img.shields.io/badge/responsible-finance-F28F3B)](PRIVACY.md)
-[![Development lens](https://img.shields.io/badge/development-inclusion-16324F)](docs/development_lens.md)
-[![Live dashboard](https://img.shields.io/badge/live-dashboard-B23A48)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/)
+![Executive dashboard overview](assets/dashboard-screenshots/01_executive_overview.png)
 
 [![Live Dashboard](https://img.shields.io/badge/Live-Dashboard-B23A48?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/)
-[![Project Overview](https://img.shields.io/badge/Project-Overview-16324F?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/project-overview.html)
-[![Research Note](https://img.shields.io/badge/Research-Note-F28F3B?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/research-note.html)
-[![Technical Report](https://img.shields.io/badge/Technical-Report-4C6E91?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/technical-report.html)
-[![Methodology](https://img.shields.io/badge/View-Methodology-6B7280?style=for-the-badge)](docs/methodology.md)
-[![Reproduce](https://img.shields.io/badge/Reproduce-Analysis-264653?style=for-the-badge)](#reproduce)
+[![Executive Summary](https://img.shields.io/badge/Executive-Summary-1F7A8C?style=for-the-badge)](outputs/reports/executive_brief.md)
+[![Methodology](https://img.shields.io/badge/Methodology-2F5F8F?style=for-the-badge)](docs/methodology.md)
+[![Data Dictionary](https://img.shields.io/badge/Data-Dictionary-5E7D68?style=for-the-badge)](docs/data_dictionary.md)
+[![Reproduce](https://img.shields.io/badge/Reproduce-Workflow-1F2933?style=for-the-badge)](#reproduce)
 
-Professional portfolio project using branch-level microfinance data from Bolivia to analyze credit growth, risk, financial inclusion, territorial balance, portfolio forecasting and responsible decision support.
+## Executive KPIs
 
-**Repository name:** `InclusiveCreditRiskAnalytics-Bolivia`
+| KPI | Value |
+|---|---:|
+| Observed period | 2012-03-01 to 2014-07-01 |
+| Global active portfolio | 69,850.2 kBOB |
+| Global clients reached | 3,827 |
+| Final delinquency rate | 0.18% |
+| Territorial client balance | 98.6% |
+| Responsible inclusion score | 98.2 / 100 |
 
-**Explore the live analytical dashboard:** [https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/)
+## Five main findings
 
-**Public pages:** [Project overview](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/project-overview.html) | [Research note](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/research-note.html) | [Technical report](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/technical-report.html)
+1. The global active portfolio increased from 109.8 kBOB to 69,850.2 kBOB during the observed period.
+2. Client outreach expanded from 18 to 3,827 clients while branch coverage became more territorially balanced.
+3. Final observed delinquency remained below 1%, preserving the responsible-growth interpretation.
+4. ARIMA is the best global forecasting model by holdout RMSE among the existing model outputs.
+5. Stress scenarios show the monitoring value of combining portfolio growth, delinquency and inclusion signals.
+
+## Tools used
+
+R, readxl, dplyr, tidyr, lubridate, ggplot2, scales, forecast, GitHub Pages, Markdown, DuckDB-compatible SQL and Power BI-ready documentation.
 
 ## Portfolio classification
 
@@ -69,18 +80,57 @@ It provides project overview material, research-note outputs, technical-report c
 
 ## Selected figures
 
+The README shows eight dashboard-ready figures, all reused from existing outputs. Public figures are aggregate or branch-level only.
+
+### 1. Total portfolio evolution
+
 ![Portfolio expansion](outputs/figures/portfolio_expansion.png)
 
-![Inclusion and credit depth](outputs/figures/inclusion_credit_depth.png)
+Period: 2012-03 to 2014-07. Unit: thousand BOB. Source: processed branch-level portfolio panel. Note: observed values and workbook projection are interpreted as monitoring evidence, not causal welfare effects.
+
+### 2. Client growth
+
+![Client growth and credit depth](outputs/figures/inclusion_credit_depth.png)
+
+Period: 2012-03 to 2014-07. Unit: clients and average balance. Source: processed inclusion metrics. Note: client expansion is a financial-inclusion proxy.
+
+### 3. Portfolio and financial inclusion
+
+![Responsible inclusion score](outputs/figures/responsible_inclusion_score.png)
+
+Period: 2012-03 to 2014-07. Unit: score from 0 to 100. Source: processed inclusion metrics. Note: the score combines outreach, portfolio depth and risk penalty.
+
+### 4. Branch comparison
 
 ![Territorial balance](outputs/figures/territorial_balance.png)
 
-![Forecast](outputs/figures/global_forecast_vs_projection.png)
+Period: 2012-03 to 2014-07. Unit: balance score. Source: branch share outputs. Note: branch balance is used as an access-equity proxy.
 
-![Risk growth](outputs/figures/risk_growth_positioning.png)
+### 5. Delinquency evolution
 
-![Stress testing](outputs/figures/stress_test_scenarios.png)
+![Mora risk monitor](outputs/figures/mora_risk_monitor.png)
 
+Period: 2012-03 to 2014-07. Unit: delinquency rate. Source: processed risk panel. Note: risk is monitored at branch and global level.
+
+### 6. Growth-risk positioning
+
+![Risk growth positioning](outputs/figures/risk_growth_positioning.png)
+
+Period: observed branch panel. Unit: growth and delinquency metrics. Source: risk-return matrix. Note: positioning supports monitoring, not lending recommendations.
+
+### 7. Observed versus projected forecast
+
+![Observed versus projected forecast](outputs/figures/global_forecast_vs_projection.png)
+
+Period: observed panel and forecast horizon. Unit: thousand BOB. Source: existing forecast outputs. Note: forecasts are decision-support scenarios, not guarantees.
+
+### 8. Stress scenarios
+
+![Stress test scenarios](outputs/figures/stress_test_scenarios.png)
+
+Period: 12-month stress horizon. Unit: thousand BOB and risk flags. Source: existing stress-test output. Note: scenarios evaluate resilience under assumptions already documented in the repository.
+
+See [Executive tables](docs/executive_tables.md) for the four dashboard-ready tables.
 ## Methodology
 
 1. Ingest Excel workbooks with `readxl`.
@@ -103,6 +153,10 @@ Detailed documentation: [methodology](docs/methodology.md), [data dictionary](do
 - [Technical report - web page](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/technical-report.html)
 - [Methodology - GitHub source](docs/methodology.md)
 - [Data dictionary - GitHub source](docs/data_dictionary.md)
+- [Executive tables - GitHub source](docs/executive_tables.md)
+- [Raw data access policy - GitHub source](data/raw/README.md)
+- [Power BI documentation](powerbi/README.md)
+- [SQL executive views](sql/executive_views.sql)
 - [Development lens - GitHub source](docs/development_lens.md)
 - [Research extension plan - GitHub source](docs/research_extension.md)
 - [Technical report - Markdown source](reports/technical-report.md)
@@ -112,7 +166,7 @@ Detailed documentation: [methodology](docs/methodology.md), [data dictionary](do
 ## Repository structure
 
 ```text
-data/raw/                 Original Excel workbooks
+data/raw/                 Local raw Excel workbooks, ignored by Git except README and .gitkeep
 data/processed/           Tidy panels generated by the R pipeline
 docs/                     GitHub Pages dashboard, public HTML reports and methodology
 docs/figures/             Dashboard-ready visual outputs
@@ -137,7 +191,7 @@ The project evaluates portfolio and inclusion indicators from branch-level opera
 
 ## Ethical note
 
-The raw files include officer-level names. Public outputs exclude personal names and use branch-level aggregates only. The privacy safeguards in [PRIVACY.md](PRIVACY.md) remain part of the public interpretation of this project.
+Raw Excel workbooks are not tracked publicly. Public outputs exclude personal names and use branch-level or aggregate indicators only. The privacy safeguards in [PRIVACY.md](PRIVACY.md) and [data/raw/README.md](data/raw/README.md) remain part of the public interpretation of this project.
 
 ## Development sources
 
