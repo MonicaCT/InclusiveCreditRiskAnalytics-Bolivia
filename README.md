@@ -144,6 +144,10 @@ The raw files include officer-level names. Public outputs exclude personal names
 - World Bank Financial Inclusion overview: <https://www.worldbank.org/ext/en/topic/financial-sector/financial-inclusion>
 - World Bank Global Findex: <https://www.worldbank.org/en/publication/globalfindex>
 
+## Citation
+
+Citation metadata are available in [CITATION.cff](CITATION.cff).
+
 ## Author
 
 [Monica Cueto Tapia](https://github.com/MonicaCT)
