@@ -1,43 +1,331 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Inclusive Credit Risk Analytics Bolivia</title>
-<style>
-:root{--ink:#1F2933;--background:#F7F5F0;--red:#B23A48;--teal:#1F7A8C;--blue:#2F5F8F;--orange:#E58F2A;--green:#5E7D68;--gray:#D9DDE3;--card:#fffdf8}
-*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--background)}
-header{padding:3.5rem max(6vw,1.25rem) 2.5rem;border-bottom:1px solid var(--gray);background:#fffdf8} h1{margin:.3rem 0;font-size:clamp(2rem,4vw,4.2rem);line-height:1.05} h2{font-size:1.65rem;margin:0 0 .7rem} h3{margin:.5rem 0}.eyebrow{color:var(--red);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.lede{max-width:900px;font-size:1.15rem}.links a{display:inline-block;margin:.45rem .45rem .15rem 0;padding:.62rem .82rem;border:1px solid var(--ink);border-radius:6px;color:var(--ink);text-decoration:none;font-weight:760;background:white}
-main{max-width:1180px;margin:auto;padding:1.5rem}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin:1rem 0}.kpi{background:white;border-top:4px solid var(--teal);padding:.9rem;border-radius:6px;box-shadow:0 2px 14px #1f293312}.kpi span{display:block;color:#5d6875;font-size:.9rem}.kpi strong{display:block;font-size:1.35rem;color:var(--blue)}
-section{padding:2rem 0;border-bottom:1px solid var(--gray)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem}.wide{grid-column:1/-1} figure{margin:0;background:white;border:1px solid var(--gray);border-radius:6px;padding:.9rem} img{width:100%;height:auto;display:block} figcaption{font-weight:800;margin-top:.55rem;color:var(--blue)} p.note{font-size:.92rem;color:#59636f;margin:.3rem 0 0}.table-wrap{overflow:auto;background:white;border:1px solid var(--gray);border-radius:6px} table{width:100%;border-collapse:collapse;min-width:720px} th,td{text-align:left;padding:.65rem;border-bottom:1px solid #eceff3} th{background:#edf2f7;color:var(--blue)} .callout{border-left:5px solid var(--orange);padding:1rem;background:white;margin:1rem 0}.footer{padding:2rem;text-align:center;color:#67717d}@media(max-width:760px){main{padding:1rem}.grid{grid-template-columns:1fr}.links a{display:block;width:100%} table{min-width:620px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inclusive Credit Risk Analytics Bolivia | Responsible Portfolio Analytics</title>
+  <meta name="description" content="Responsible credit-portfolio analytics for monitoring growth, financial inclusion, branch performance, risk, forecasting and stress scenarios in Bolivia.">
+  <meta property="og:title" content="Inclusive Credit Risk Analytics Bolivia">
+  <meta property="og:description" content="Credit portfolio dashboard, KPI system, forecasting and stress testing for branch-level financial inclusion analytics in Bolivia.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia/main/assets/dashboard-screenshots/01_executive_overview.png">
+  <link rel="canonical" href="https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/">
+  <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
-<header id="top">
-<div class="eyebrow">Responsible finance and development analytics</div>
-<h1>Inclusive Credit Risk Analytics Bolivia</h1>
-<p class="lede">Branch-level credit portfolio analytics for monitoring growth, financial inclusion, risk, forecasting and stress scenarios in Bolivia through a reproducible decision-support workflow.</p>
-<nav class="links"><a href="#executive-overview">Executive overview</a><a href="#growth-inclusion">Growth and inclusion</a><a href="#portfolio-quality">Portfolio quality</a><a href="#branch-performance">Branch performance</a><a href="#forecasting">Forecasting</a><a href="#stress-testing">Stress testing</a></nav>
-</header>
-<main>
-<section id="executive-overview">
-<h2>Executive Overview</h2>
-<div class="kpis"><article class="kpi"><span>Total portfolio</span><strong>69,850.2 kBOB</strong></article><article class="kpi"><span>Clients</span><strong>3,827</strong></article><article class="kpi"><span>Delinquency</span><strong>0.18%</strong></article><article class="kpi"><span>Monthly growth</span><strong>3.1%</strong></article><article class="kpi"><span>Average balance</span><strong>18,251.9 BOB</strong></article><article class="kpi"><span>Responsible inclusion</span><strong>98.2 / 100</strong></article></div>
-<div class="callout"><strong>Privacy guardrail:</strong> raw Excel workbooks are excluded from public tracking. Public outputs use processed branch-level or aggregate indicators only.</div>
-<div class="table-wrap"><table><thead><tr><th>indicator</th><th>initial_value</th><th>final_value</th><th>absolute_change</th><th>percentage_change</th><th>interpretation</th></tr></thead><tbody>
-<tr><td>Total portfolio</td><td>109.8 kBOB</td><td>69,850.2 kBOB</td><td>69,740.3 kBOB</td><td>63,496.5%</td><td>Strong portfolio expansion.</td></tr>
-<tr><td>Clients</td><td>18</td><td>3,827</td><td>3,809</td><td>21,161.1%</td><td>Outreach increased substantially.</td></tr>
-<tr><td>Average balance</td><td>6,101.9 BOB</td><td>18,251.9 BOB</td><td>12,150.1 BOB</td><td>199.1%</td><td>Credit depth increased.</td></tr>
-<tr><td>Delinquency</td><td>0.0%</td><td>0.18%</td><td>0.18 pp</td><td>n/a</td><td>Final observed risk remained low.</td></tr>
-<tr><td>Territorial balance</td><td>0.0%</td><td>98.6%</td><td>98.6 pp</td><td>n/a</td><td>Branch client distribution became balanced.</td></tr>
-<tr><td>Responsible inclusion score</td><td>20.3</td><td>98.2</td><td>78.0</td><td>384.4%</td><td>Growth remained compatible with responsible-inclusion monitoring.</td></tr>
-</tbody></table></div>
-</section>
-<section id="growth-inclusion"><h2>Growth and Inclusion</h2><div class="grid"><figure><img src="figures/portfolio_expansion.png" alt="Portfolio expansion"><figcaption>Total portfolio evolution</figcaption><p class="note">Period: 2012-03 to 2014-07. Unit: thousand BOB. Source: processed portfolio panel.</p></figure><figure><img src="figures/inclusion_credit_depth.png" alt="Client growth and credit depth"><figcaption>Client growth and credit depth</figcaption><p class="note">Unit: clients and BOB. Source: inclusion metrics panel.</p></figure><figure class="wide"><img src="figures/responsible_inclusion_score.png" alt="Responsible inclusion score"><figcaption>Portfolio and financial inclusion</figcaption><p class="note">Unit: score from 0 to 100. Source: processed inclusion metrics.</p></figure></div></section>
-<section id="portfolio-quality"><h2>Portfolio Quality</h2><div class="grid"><figure><img src="figures/mora_risk_monitor.png" alt="Delinquency monitor"><figcaption>Delinquency evolution</figcaption><p class="note">Unit: delinquency rate. Source: risk-adjusted panel.</p></figure><figure><img src="figures/risk_growth_positioning.png" alt="Growth risk positioning"><figcaption>Growth-risk positioning</figcaption><p class="note">Unit: growth and delinquency indicators. Source: risk-return matrix.</p></figure></div></section>
-<section id="branch-performance"><h2>Branch Performance</h2><div class="grid"><figure class="wide"><img src="figures/territorial_balance.png" alt="Territorial balance"><figcaption>Branch comparison and territorial balance</figcaption><p class="note">Unit: balance score. Source: territorial balance metrics.</p></figure></div><div class="table-wrap"><table><thead><tr><th>branch</th><th>portfolio</th><th>clients</th><th>average_balance</th><th>growth</th><th>delinquency_rate</th><th>portfolio_share</th><th>risk_flag</th></tr></thead><tbody><tr><td>16 de Julio</td><td>31,241.0 kBOB</td><td>1,685</td><td>18,540.6 BOB</td><td>31.9%</td><td>1.0%</td><td>44.7%</td><td>Amber</td></tr><tr><td>Ceja</td><td>38,609.2 kBOB</td><td>2,142</td><td>18,024.8 BOB</td><td>43.4%</td><td>-0.5%</td><td>55.3%</td><td>Green</td></tr></tbody></table></div></section>
-<section id="forecasting"><h2>Forecasting</h2><div class="grid"><figure class="wide"><img src="figures/global_forecast_vs_projection.png" alt="Observed versus projected forecast"><figcaption>Observed versus projected forecast</figcaption><p class="note">Unit: thousand BOB. Source: existing forecast outputs.</p></figure></div><div class="table-wrap"><table><thead><tr><th>model</th><th>mae</th><th>rmse</th><th>mape</th><th>ranking</th><th>selected_model</th></tr></thead><tbody><tr><td>Global ARIMA</td><td>3,451.7</td><td>3,759.3</td><td>5.30%</td><td>1</td><td>Yes</td></tr><tr><td>Global ETS</td><td>5,463.7</td><td>5,999.1</td><td>8.37%</td><td>2</td><td>No</td></tr><tr><td>Global Naive</td><td>6,717.6</td><td>7,659.4</td><td>10.22%</td><td>3</td><td>No</td></tr></tbody></table></div></section>
-<section id="stress-testing"><h2>Stress Testing</h2><div class="grid"><figure class="wide"><img src="figures/stress_test_scenarios.png" alt="Stress scenarios"><figcaption>Stress scenarios</figcaption><p class="note">Unit: thousand BOB and risk flags. Source: existing stress-test output.</p></figure></div><div class="table-wrap"><table><thead><tr><th>scenario</th><th>assumption</th><th>portfolio_effect</th><th>delinquency_effect</th><th>risk_level</th><th>recommended_action</th></tr></thead><tbody><tr><td>Credit tightening</td><td>12-month existing stress assumption</td><td>78,708.9 kBOB</td><td>0.16%</td><td>Green</td><td>Lower access expansion but more conservative risk posture.</td></tr><tr><td>High growth risk</td><td>12-month existing stress assumption</td><td>140,552.3 kBOB</td><td>0.33%</td><td>Green</td><td>Fast outreach that requires stronger risk governance.</td></tr><tr><td>Mora shock</td><td>12-month existing stress assumption</td><td>93,940.7 kBOB</td><td>0.48%</td><td>Green</td><td>Stress case to test resilience of responsible finance.</td></tr><tr><td>Responsible inclusion</td><td>12-month existing stress assumption</td><td>105,548.4 kBOB</td><td>0.19%</td><td>Green</td><td>Balanced outreach with controlled risk.</td></tr></tbody></table></div></section>
-</main><div class="footer">Inclusive Credit Risk Analytics Bolivia - public dashboard uses branch-level and aggregate outputs only.</div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav-wrap" aria-label="Project navigation">
+      <a class="brand" href="#home" aria-label="Project home">
+        <strong>Inclusive Credit Risk Analytics Bolivia</strong>
+        <span>Development Analytics Lab</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="main-nav" id="main-nav">
+        <a href="#home">Home</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#figures">Figures</a>
+        <a href="#tables">Tables</a>
+        <a href="#data">Data</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#reports">Reports</a>
+        <a href="#reproducibility">Reproducibility</a>
+        <a href="https://monicact.github.io/">Back to Portfolio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Responsible finance and development analytics</p>
+          <h1>Inclusive Credit Risk Analytics Bolivia</h1>
+          <p class="subtitle">Responsible credit-portfolio analytics for monitoring growth, financial inclusion, branch performance, risk, forecasting and stress scenarios in Bolivia.</p>
+          <p class="lead">This project transforms operational Excel workbooks into a privacy-aware branch-level monthly panel, executive KPIs, dashboard-ready figures, forecast validation outputs and stress-test scenarios.</p>
+          <div class="actions">
+            <a class="button primary" href="#dashboard">Live Dashboard</a>
+            <a class="button secondary" href="#executive-snapshot">Executive Summary</a>
+            <a class="button secondary" href="technical-report.html">Technical Report</a>
+            <a class="button secondary" href="research-note.html">Research Note</a>
+            <a class="button tertiary" href="methodology.md">Methodology</a>
+            <a class="button tertiary" href="https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia">Repository</a>
+            <a class="button tertiary" href="https://monicact.github.io/">Back to Portfolio</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Project signals">
+          <div class="signal"><strong>Data analyst signal</strong><span>Excel transformation, cleaning, consolidation, KPI design and executive communication.</span></div>
+          <div class="signal"><strong>Financial analytics signal</strong><span>Portfolio growth, delinquency monitoring, branch comparison, forecasting and stress testing.</span></div>
+          <div class="signal"><strong>Privacy guardrail</strong><span>Public outputs are aggregate or branch-level; raw Excel workbooks are not redistributed.</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section white" id="executive-snapshot">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Executive Snapshot</p>
+            <h2>Portfolio, inclusion and risk indicators.</h2>
+          </div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><strong>2012-03 to 2014-07</strong><span>Observed period</span></div>
+          <div class="metric"><strong>109.8 kBOB</strong><span>Initial active portfolio</span></div>
+          <div class="metric"><strong>69,850.2 kBOB</strong><span>Final active portfolio</span></div>
+          <div class="metric"><strong>18</strong><span>Initial clients</span></div>
+          <div class="metric"><strong>3,827</strong><span>Final clients</span></div>
+          <div class="metric"><strong>0.25%</strong><span>Maximum observed global mora</span></div>
+          <div class="metric"><strong>98.6%</strong><span>Final territorial client balance</span></div>
+          <div class="metric"><strong>98.2 / 100</strong><span>Final responsible inclusion score</span></div>
+          <div class="metric"><strong>Global ARIMA</strong><span>Selected forecast model by holdout RMSE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="findings">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Key Findings</p>
+            <h2>Decision-oriented findings from existing outputs.</h2>
+          </div>
+        </div>
+        <article class="surface accent">
+          <ul class="list-clean">
+            <li>The global active portfolio increased from 109.8 kBOB to 69,850.2 kBOB during the observed period.</li>
+            <li>Client outreach expanded from 18 to 3,827 clients while branch coverage became more territorially balanced.</li>
+            <li>Final observed delinquency remained below 1%, preserving the responsible-growth interpretation.</li>
+            <li>Branch comparison shows Ceja with 55.3% of final portfolio and 2,142 clients, while 16 de Julio holds 44.7% and 1,685 clients.</li>
+            <li>ARIMA is the best global forecasting model by holdout RMSE among the existing model outputs.</li>
+            <li>Stress scenarios show the monitoring value of combining portfolio growth, delinquency and inclusion signals.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section white" id="dashboard">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Six public dashboard views.</h2>
+          </div>
+          <a class="button secondary small" href="https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/">Open public page</a>
+        </div>
+        <div class="dashboard-strip" aria-label="Dashboard section shortcuts">
+          <a href="#dashboard-executive">Executive Overview</a>
+          <a href="#dashboard-growth">Growth and Inclusion</a>
+          <a href="#dashboard-quality">Portfolio Quality</a>
+          <a href="#dashboard-branch">Branch Performance</a>
+          <a href="#dashboard-forecasting">Forecasting</a>
+          <a href="#dashboard-stress">Stress Testing</a>
+        </div>
+        <div class="grid three" style="margin-top: 18px;">
+          <article class="project-card" id="dashboard-executive"><div class="project-media"><img src="../assets/dashboard-screenshots/01_executive_overview.png" alt="Executive overview dashboard screenshot"></div><div class="project-body"><h3>Executive Overview</h3><p>Portfolio, clients, delinquency, average balance and responsible inclusion KPIs.</p></div></article>
+          <article class="project-card" id="dashboard-growth"><div class="project-media"><img src="../assets/dashboard-screenshots/02_growth_inclusion.png" alt="Growth and inclusion dashboard screenshot"></div><div class="project-body"><h3>Growth and Inclusion</h3><p>Client expansion, portfolio depth and inclusion indicators.</p></div></article>
+          <article class="project-card" id="dashboard-quality"><div class="project-media"><img src="../assets/dashboard-screenshots/03_portfolio_quality.png" alt="Portfolio quality dashboard screenshot"></div><div class="project-body"><h3>Portfolio Quality</h3><p>Mora monitoring and growth-risk positioning.</p></div></article>
+          <article class="project-card" id="dashboard-branch"><div class="project-media"><img src="../assets/dashboard-screenshots/04_branch_performance.png" alt="Branch performance dashboard screenshot"></div><div class="project-body"><h3>Branch Performance</h3><p>Branch shares, client balance and portfolio comparison.</p></div></article>
+          <article class="project-card" id="dashboard-forecasting"><div class="project-media"><img src="../assets/dashboard-screenshots/05_forecasting.png" alt="Forecasting dashboard screenshot"></div><div class="project-body"><h3>Forecasting</h3><p>Observed portfolio, projection comparison and selected forecasting output.</p></div></article>
+          <article class="project-card" id="dashboard-stress"><div class="project-media"><img src="../assets/dashboard-screenshots/06_stress_testing.png" alt="Stress testing dashboard screenshot"></div><div class="project-body"><h3>Stress Testing</h3><p>Scenario comparison for portfolio effect, delinquency effect and risk monitoring.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="figures">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Main Figures</p>
+            <h2>Existing dashboard-ready figures.</h2>
+          </div>
+        </div>
+        <div class="grid two">
+          <article class="project-card"><div class="project-media"><img src="figures/portfolio_expansion.png" alt="Portfolio expansion figure"></div><div class="project-body"><h3>Portfolio expansion</h3><p>Interpretation: monitors the scale of active portfolio growth.</p><p class="figure-note">Period: 2012-03 to 2014-07. Unit: thousand BOB. Source: processed branch-level portfolio panel. Note: monitoring evidence, not causal welfare effect.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/inclusion_credit_depth.png" alt="Client growth and credit depth figure"></div><div class="project-body"><h3>Client growth</h3><p>Interpretation: tracks outreach expansion and average credit depth.</p><p class="figure-note">Period: 2012-03 to 2014-07. Unit: clients and BOB. Source: processed inclusion metrics. Note: client expansion is a financial-inclusion proxy.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/responsible_inclusion_score.png" alt="Responsible inclusion score figure"></div><div class="project-body"><h3>Inclusion and credit depth</h3><p>Interpretation: combines outreach, portfolio depth and risk penalty.</p><p class="figure-note">Period: 2012-03 to 2014-07. Unit: 0-100 score. Source: processed inclusion metrics. Note: operational score, not household welfare measurement.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/territorial_balance.png" alt="Territorial branch balance figure"></div><div class="project-body"><h3>Branch comparison</h3><p>Interpretation: evaluates client and portfolio distribution across branches.</p><p class="figure-note">Period: 2012-03 to 2014-07. Unit: balance score. Source: branch share outputs. Note: branch balance is an access-equity proxy.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/mora_risk_monitor.png" alt="Mora risk monitor figure"></div><div class="project-body"><h3>Delinquency evolution</h3><p>Interpretation: monitors portfolio quality through mora behavior.</p><p class="figure-note">Period: 2012-03 to 2014-07. Unit: delinquency rate. Source: processed risk panel. Note: risk is monitored at branch and global level.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/risk_growth_positioning.png" alt="Growth-risk positioning figure"></div><div class="project-body"><h3>Growth-risk positioning</h3><p>Interpretation: places branch performance in a growth and delinquency matrix.</p><p class="figure-note">Period: observed branch panel. Unit: growth and delinquency metrics. Source: risk-return matrix. Note: supports monitoring, not lending recommendations.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/global_forecast_vs_projection.png" alt="Forecast versus projection figure"></div><div class="project-body"><h3>Forecast versus projection</h3><p>Interpretation: compares observed series, statistical forecast and workbook projection.</p><p class="figure-note">Period: observed panel and forecast horizon. Unit: thousand BOB. Source: existing forecast outputs. Note: forecasts are scenarios, not guarantees.</p></div></article>
+          <article class="project-card"><div class="project-media"><img src="figures/stress_test_scenarios.png" alt="Stress-test scenarios figure"></div><div class="project-body"><h3>Stress-test scenarios</h3><p>Interpretation: compares resilience across existing stress assumptions.</p><p class="figure-note">Period: 12-month stress horizon. Unit: thousand BOB and risk flags. Source: existing stress-test output. Note: scenarios evaluate resilience under documented assumptions.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="tables">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Executive Tables</p>
+            <h2>Four existing tables reused without recalculation.</h2>
+          </div>
+          <a class="button secondary small" href="executive_tables.md">Open full table catalog</a>
+        </div>
+        <article class="surface">
+          <h3>Executive KPI Summary</h3>
+          <div class="table-wrap"><table><thead><tr><th>indicator</th><th>initial_value</th><th>final_value</th><th>absolute_change</th><th>percentage_change</th><th>interpretation</th></tr></thead><tbody><tr><td>Total portfolio</td><td>109.8 kBOB</td><td>69,850.2 kBOB</td><td>69,740.3 kBOB</td><td>63,496.5%</td><td>Strong portfolio expansion over the observed period.</td></tr><tr><td>Clients</td><td>18.0</td><td>3,827.0</td><td>3,809.0</td><td>21,161.1%</td><td>Outreach increased substantially.</td></tr><tr><td>Average balance</td><td>6,101.9 BOB</td><td>18,251.9 BOB</td><td>12,150.1 BOB</td><td>199.1%</td><td>Credit depth increased alongside client growth.</td></tr><tr><td>Delinquency</td><td>0.0%</td><td>0.2%</td><td>0.2 pp</td><td>n/a</td><td>Final observed delinquency remained below 1%.</td></tr><tr><td>Territorial balance</td><td>0.0%</td><td>98.6%</td><td>98.6 pp</td><td>n/a</td><td>Client distribution became more balanced between branches.</td></tr><tr><td>Responsible inclusion score</td><td>20.3</td><td>98.2</td><td>78.0</td><td>384.4%</td><td>Growth remained compatible with responsible-inclusion monitoring.</td></tr></tbody></table></div>
+        </article>
+        <article class="surface" style="margin-top: 18px;">
+          <h3>Branch Performance</h3>
+          <div class="table-wrap"><table><thead><tr><th>branch</th><th>portfolio</th><th>clients</th><th>average_balance</th><th>growth</th><th>delinquency_rate</th><th>portfolio_share</th><th>risk_flag</th></tr></thead><tbody><tr><td>16 de Julio</td><td>31,241.0 kBOB</td><td>1,685.0</td><td>18,540.6 BOB</td><td>31.9%</td><td>1.0%</td><td>44.7%</td><td>Amber</td></tr><tr><td>Ceja</td><td>38,609.2 kBOB</td><td>2,142.0</td><td>18,024.8 BOB</td><td>43.4%</td><td>-0.5%</td><td>55.3%</td><td>Green</td></tr></tbody></table></div>
+        </article>
+        <article class="surface" style="margin-top: 18px;">
+          <h3>Forecast Accuracy</h3>
+          <div class="table-wrap"><table><thead><tr><th>model</th><th>mae</th><th>rmse</th><th>mape</th><th>ranking</th><th>selected_model</th></tr></thead><tbody><tr><td>Global ARIMA</td><td>3,451.7</td><td>3,759.3</td><td>5.30%</td><td>1</td><td>Yes</td></tr><tr><td>Global ETS</td><td>5,463.7</td><td>5,999.1</td><td>8.37%</td><td>2</td><td>No</td></tr><tr><td>Global Naive</td><td>6,717.6</td><td>7,659.4</td><td>10.22%</td><td>3</td><td>No</td></tr></tbody></table></div>
+        </article>
+        <article class="surface" style="margin-top: 18px;">
+          <h3>Stress Test Summary</h3>
+          <div class="table-wrap"><table><thead><tr><th>scenario</th><th>assumption</th><th>portfolio_effect</th><th>delinquency_effect</th><th>risk_level</th><th>recommended_action</th></tr></thead><tbody><tr><td>Credit tightening</td><td>12-month scenario using existing stress-test assumptions</td><td>78,708.9 kBOB ending portfolio</td><td>0.2% stressed delinquency</td><td>Green</td><td>Lower access expansion but more conservative risk posture.</td></tr><tr><td>High growth risk</td><td>12-month scenario using existing stress-test assumptions</td><td>140,552.3 kBOB ending portfolio</td><td>0.3% stressed delinquency</td><td>Green</td><td>Fast outreach that requires stronger risk governance.</td></tr><tr><td>Mora shock</td><td>12-month scenario using existing stress-test assumptions</td><td>93,940.7 kBOB ending portfolio</td><td>0.5% stressed delinquency</td><td>Green</td><td>Stress case to test resilience of responsible finance.</td></tr><tr><td>Responsible inclusion</td><td>12-month scenario using existing stress-test assumptions</td><td>105,548.4 kBOB ending portfolio</td><td>0.2% stressed delinquency</td><td>Green</td><td>Balanced outreach with controlled risk.</td></tr></tbody></table></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="data">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Data and Analytical Workflow</p><h2>From operational workbooks to public decision products.</h2></div></div>
+        <div class="grid two">
+          <article class="surface teal">
+            <h3>Workflow</h3>
+            <div class="workflow-flow" aria-label="Analytical workflow">
+              <span>Raw operational Excel workbooks</span>
+              <span>Privacy and data-quality checks</span>
+              <span>Branch-level monthly analytical panel</span>
+              <span>Portfolio and inclusion indicators</span>
+              <span>Forecasting and stress scenarios</span>
+              <span>Figures, tables, reports and dashboard</span>
+            </div>
+          </article>
+          <article class="surface orange">
+            <h3>Data scope</h3>
+            <ul class="list-clean">
+              <li>Sources: operational Excel workbooks consolidated by the existing R workflow.</li>
+              <li>Period: 2012-03 to 2014-07.</li>
+              <li>Unit of analysis: branch-level monthly portfolio and inclusion indicators.</li>
+              <li>Main transformations: Excel ingestion, sheet consolidation, panel construction, KPI engineering, forecast validation and stress scenarios.</li>
+              <li>Limitations: branch-level operational evidence, limited period and no causal poverty impact estimation.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="privacy">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Data Privacy</p><h2>Public outputs are aggregated and privacy-aware.</h2></div></div>
+        <article class="surface green">
+          <ul class="list-clean">
+            <li>Raw Excel workbooks are not distributed publicly.</li>
+            <li><code>data/raw/</code> is excluded through <code>.gitignore</code>, while documentation placeholders remain visible.</li>
+            <li>Public products use aggregate or branch-level indicators.</li>
+            <li>Names, identifiers and individual-level information are not published.</li>
+            <li>Original data require authorization before any redistribution.</li>
+          </ul>
+          <div class="card-actions"><a class="button secondary small" href="https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia/blob/main/data/raw/README.md">Raw data access policy</a><a class="button secondary small" href="https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia/blob/main/PRIVACY.md">Privacy note</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="methodology">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Methodology</p><h2>Existing analytical approach.</h2></div><a class="button secondary small" href="methodology.md">Open methodology</a></div>
+        <div class="grid three">
+          <article class="surface"><h3>Data consolidation</h3><p>Consolidation of heterogeneous Excel sheets into a tidy branch-level monthly panel.</p></article>
+          <article class="surface"><h3>Portfolio KPIs</h3><p>Active portfolio, clients, average balance, disbursement intensity, mora and branch shares.</p></article>
+          <article class="surface"><h3>Inclusion indicators</h3><p>Client outreach, credit depth, concentration and responsible inclusion monitoring.</p></article>
+          <article class="surface"><h3>Branch comparison</h3><p>Comparison of 16 de Julio and Ceja using final portfolio, client and risk indicators.</p></article>
+          <article class="surface"><h3>Forecast validation</h3><p>Holdout validation for Naive, ETS and ARIMA models using existing model outputs.</p></article>
+          <article class="surface"><h3>Stress testing</h3><p>Scenario monitoring for credit tightening, high growth risk, mora shock and responsible inclusion.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="reports">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Reports</p><h2>Existing documentation and public outputs.</h2></div></div>
+        <div class="grid four">
+          <a class="surface" href="project-overview.html"><h3>Project Overview</h3><p>Public web overview.</p></a>
+          <a class="surface" href="#executive-snapshot"><h3>Executive Summary</h3><p>KPIs and decision snapshot.</p></a>
+          <a class="surface" href="research-note.html"><h3>Research Note</h3><p>Development and research framing.</p></a>
+          <a class="surface" href="technical-report.html"><h3>Technical Report</h3><p>Technical documentation.</p></a>
+          <a class="surface" href="methodology.md"><h3>Methodology</h3><p>Methodological notes.</p></a>
+          <a class="surface" href="data_dictionary.md"><h3>Data Dictionary</h3><p>Variable definitions.</p></a>
+          <a class="surface" href="development_lens.md"><h3>Development Lens</h3><p>Development interpretation and limits.</p></a>
+          <a class="surface" href="VALIDATION_REPORT.md"><h3>Validation Report</h3><p>Public validation record.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reproducibility">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Reproducibility</p><h2>How the workflow is inspected.</h2></div></div>
+        <div class="grid two">
+          <article class="surface accent">
+            <h3>Main command</h3>
+            <pre><code>source('scripts/01_run_analysis.R')</code></pre>
+            <p>This command is documented for authorized environments with the required local raw workbooks. It was not executed during this website update.</p>
+          </article>
+          <article class="surface teal">
+            <h3>Repository structure</h3>
+            <ul class="list-clean">
+              <li><code>data/raw/</code>: private local workbooks, ignored from public Git tracking.</li>
+              <li><code>docs/</code>: public dashboard, reports and methodology documentation.</li>
+              <li><code>docs/figures/</code>: dashboard-ready visual outputs.</li>
+              <li><code>outputs/</code> and <code>reports/</code>: existing analytical products and report sources.</li>
+              <li><code>.github/workflows/</code>: repository workflow checks available.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="limitations">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Limitations</p><h2>Scope and interpretation safeguards.</h2></div></div>
+        <article class="surface orange">
+          <ul class="list-clean">
+            <li>The project uses operational branch-level data and a limited observation period.</li>
+            <li>It does not estimate causal poverty reduction, household welfare effects or firm-level productivity impacts.</li>
+            <li>Forecasting outputs support monitoring and scenario analysis; they are not guarantees of future portfolio performance.</li>
+            <li>Stress testing represents documented scenarios under existing assumptions.</li>
+            <li>Financial inclusion indicators are operational proxies, not direct socioeconomic outcomes.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="citation-author">
+      <div class="container">
+        <div class="grid two">
+          <article class="surface accent">
+            <p class="eyebrow">Citation</p>
+            <h2>Cite this project.</h2>
+            <p>Citation metadata are available in <code>CITATION.cff</code>.</p>
+            <a class="button secondary small" href="https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia/blob/main/CITATION.cff">Open CITATION.cff</a>
+          </article>
+          <article class="surface teal">
+            <p class="eyebrow">Author</p>
+            <h2>Monica Cueto Tapia</h2>
+            <p>Applied Economist & Data Analyst.</p>
+            <div class="card-actions"><a class="button primary small" href="https://monicact.github.io/">Back to Portfolio</a><a class="button secondary small" href="https://github.com/MonicaCT">GitHub profile</a><a class="button secondary small" href="https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia">Repository</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>Inclusive Credit Risk Analytics Bolivia - public dashboard uses branch-level and aggregate outputs only.</span>
+      <a href="#home">Back to top</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js"></script>
 </body>
 </html>

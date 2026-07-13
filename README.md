@@ -4,11 +4,15 @@ Branch-level credit portfolio analytics for monitoring growth, financial inclusi
 
 ![Executive dashboard overview](assets/dashboard-screenshots/01_executive_overview.png)
 
-[![Live Dashboard](https://img.shields.io/badge/Live-Dashboard-B23A48?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/)
-[![Executive Summary](https://img.shields.io/badge/Executive-Summary-1F7A8C?style=for-the-badge)](outputs/reports/executive_brief.md)
-[![Methodology](https://img.shields.io/badge/Methodology-2F5F8F?style=for-the-badge)](docs/methodology.md)
-[![Data Dictionary](https://img.shields.io/badge/Data-Dictionary-5E7D68?style=for-the-badge)](docs/data_dictionary.md)
+[![Website](https://img.shields.io/badge/Website-GitHub%20Pages-B23A48?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/)
+[![Live Dashboard](https://img.shields.io/badge/Live-Dashboard-1F7A8C?style=for-the-badge)](https://monicact.github.io/InclusiveCreditRiskAnalytics-Bolivia/#dashboard)
+[![Executive Summary](https://img.shields.io/badge/Executive-Summary-2F5F8F?style=for-the-badge)](outputs/reports/executive_brief.md)
+[![Technical Report](https://img.shields.io/badge/Technical-Report-E58F2A?style=for-the-badge)](docs/technical-report.html)
+[![Research Note](https://img.shields.io/badge/Research-Note-5E7D68?style=for-the-badge)](docs/research-note.html)
+[![Methodology](https://img.shields.io/badge/Methodology-1F2933?style=for-the-badge)](docs/methodology.md)
 [![Reproduce](https://img.shields.io/badge/Reproduce-Workflow-1F2933?style=for-the-badge)](#reproduce)
+[![Repository](https://img.shields.io/badge/Repository-GitHub-2F5F8F?style=for-the-badge)](https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia)
+[![Back to Portfolio](https://img.shields.io/badge/Back%20to-Portfolio-B23A48?style=for-the-badge)](https://monicact.github.io/)
 
 ## Executive KPIs
 

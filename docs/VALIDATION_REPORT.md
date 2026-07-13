@@ -1,87 +1,123 @@
 # Validation Report
 
-Date: 2026-07-12
+Date: 2026-07-13
 
-Scope: public-data safety and recruiter-facing presentation update for `InclusiveCreditRiskAnalytics-Bolivia`.
+Scope: reusable portfolio website application for `InclusiveCreditRiskAnalytics-Bolivia`.
 
 ## Summary
 
 Status: PASS
 
-No analysis pipeline, model estimation, table regeneration or figure regeneration was executed. The update reuses processed outputs, dashboard-ready figures and existing model/stress-test results.
+The repository website was harmonized with the reusable portfolio template from `MonicaCT/site-template`. No analysis pipeline, model estimation, forecast recalculation, stress-test recalculation, table regeneration, figure regeneration or data transformation was executed.
 
-## Raw data safety
+## Files validated
 
-- Tracked raw Excel files after cleanup: 0.
-- Local raw Excel copies remain in `data/raw/` and were not deleted, moved, transformed or recalculated.
-- `.gitignore` now ignores `data/raw/*` while keeping `data/raw/README.md` and `data/raw/.gitkeep` visible.
-- `git check-ignore` confirms the four local Excel workbooks are ignored.
+- `docs/index.html`
+- `docs/assets/css/site.css`
+- `docs/assets/js/site.js`
+- `docs/assets/images/.gitkeep`
+- `docs/assets/data/project-content.json`
+- `README.md`
 
-Raw files removed from public Git tracking:
+## Website structure
 
-- `data/raw/datos micro 2.crec-1.xlsx`
-- `data/raw/datos micro 2.crec.MODIFICADO.xlsx`
-- `data/raw/rebuilt.Copia de Informe_preliminarA.xlsx`
-- `data/raw/rebuilt.Copia de Informe_preliminarBa.xlsx`
+- Hero: PASS.
+- Executive Snapshot: PASS.
+- Key Findings: PASS.
+- Dashboard: PASS.
+- Main Figures: PASS.
+- Executive Tables: PASS.
+- Data and Analytical Workflow: PASS.
+- Data Privacy: PASS.
+- Methodology: PASS.
+- Reports: PASS.
+- Reproducibility: PASS.
+- Limitations: PASS.
+- Citation and Author: PASS.
+
+## Reused dashboard screenshots
+
+All six existing dashboard screenshots are referenced from `assets/dashboard-screenshots/`:
+
+1. `01_executive_overview.png`
+2. `02_growth_inclusion.png`
+3. `03_portfolio_quality.png`
+4. `04_branch_performance.png`
+5. `05_forecasting.png`
+6. `06_stress_testing.png`
+
+No new screenshots were generated.
+
+## Reused figures
+
+All eight existing figures are referenced from `docs/figures/`:
+
+1. `portfolio_expansion.png`
+2. `inclusion_credit_depth.png`
+3. `responsible_inclusion_score.png`
+4. `territorial_balance.png`
+5. `mora_risk_monitor.png`
+6. `risk_growth_positioning.png`
+7. `global_forecast_vs_projection.png`
+8. `stress_test_scenarios.png`
+
+No figures were regenerated.
+
+## Reused executive tables
+
+The website reuses four existing tables documented in `docs/executive_tables.md`:
+
+1. Executive KPI Summary
+2. Branch Performance
+3. Forecast Accuracy
+4. Stress Test Summary
+
+No table values were recalculated or modified.
+
+## Local validation
+
+| Check | Status | Notes |
+|---|---|---|
+| HTML file present | PASS | `docs/index.html` exists. |
+| CSS and JS present | PASS | Reused template assets are stored under `docs/assets/`. |
+| Project content JSON | PASS | `docs/assets/data/project-content.json` parses successfully. |
+| Relative links | PASS | Local links in `docs/index.html` resolve. |
+| Images | PASS | Dashboard screenshots and figure paths exist. |
+| Tables | PASS | `docs/executive_tables.md` exists and is linked. |
+| README renderability | PASS | First-screen badges now include Website, Live Dashboard, Executive Summary, Technical Report, Research Note, Methodology, Reproduce, Repository and Back to Portfolio. |
+| Privacy scan | PASS | No local paths, telephone number, credentials, tokens or personal identifiers were added to public web files. |
+| Raw Excel tracking | PASS | No raw Excel workbooks are tracked under `data/raw/`. |
+| Responsive design | PASS | Viewport metadata, mobile breakpoints and responsive navigation are present. |
+| Keyboard navigation | PASS | Skip link, focus-visible styles and aria-labelled navigation controls are present. |
+| Dashboard intact | PASS | Existing dashboard screenshots and sections were reused. |
+| Data and models unchanged | PASS | Changes are limited to README and docs web/documentation assets. |
+| `git diff --check` | PASS | Only a line-ending warning was reported by Git; no whitespace errors. |
+| Large new files | PASS | No large files were added under `docs/assets/`. |
+
+## GitHub Pages
+
+Prepared for:
+
+```text
+Branch: main
+Folder: /docs
+```
+
+The public dashboard URL was not repeatedly rechecked in this phase. GitHub Pages administrative configuration was not changed.
 
 ## Privacy
 
-- Public tracked files were scanned for common secret tokens and email-like identifiers: 0 matches.
-- Raw Excel workbooks are excluded from tracking and remain local only.
-- Public materials describe privacy restrictions without exposing names, officers, clients, documents, phone numbers, addresses or identifiers.
-
-## README and links
-
-- README local links: PASS.
-- README external links: PASS.
-- README first screen includes title, two-line value proposition, executive screenshot, five action buttons, six KPIs, five findings and tools used.
-
-## Figures
-
-Eight existing figures are reused in the README:
-
-1. `outputs/figures/portfolio_expansion.png`
-2. `outputs/figures/inclusion_credit_depth.png`
-3. `outputs/figures/responsible_inclusion_score.png`
-4. `outputs/figures/territorial_balance.png`
-5. `outputs/figures/mora_risk_monitor.png`
-6. `outputs/figures/risk_growth_positioning.png`
-7. `outputs/figures/global_forecast_vs_projection.png`
-8. `outputs/figures/stress_test_scenarios.png`
-
-All referenced figure files exist.
-
-## Dashboard
-
-- `docs/index.html` remains the single public dashboard page.
-- The dashboard is organized into six sections: Executive Overview, Growth and Inclusion, Portfolio Quality, Branch Performance, Forecasting and Stress Testing.
-- All dashboard image references resolve locally.
-- Six dashboard screenshots were created in `assets/dashboard-screenshots/`.
-
-## Tables
-
-Four executive tables are shown in `docs/executive_tables.md` and reused in the dashboard where appropriate:
-
-1. Executive KPI summary
-2. Branch performance
-3. Forecast accuracy
-4. Stress test summary
-
-Table values were copied or summarized from existing processed outputs and dashboard-ready tables. No figures, forecasts, stress tests or scientific interpretations were recalculated.
-
-## SQL and Power BI
-
-- `sql/executive_views.sql` documents DuckDB-compatible views for executive KPIs, branch performance, forecast accuracy and stress-test summary.
-- Power BI documentation was added without creating a `.pbix` file.
-- DAX documentation contains 10 essential measures, below the requested maximum of 15.
-
-## Git checks
-
-- `git diff --check`: PASS.
-- Raw Excel workbooks versioned after cleanup: 0.
-- Pending changes are limited to public-safety and presentation files plus removal of raw Excel files from Git tracking.
+- Raw Excel workbooks are not distributed publicly.
+- `data/raw/` remains excluded through `.gitignore`.
+- Public outputs are aggregated or branch-level.
+- No names, personal identifiers or individual-level records are published.
+- Original data require authorization before redistribution.
 
 ## Warnings
 
-- The raw Excel files still require human authorization/provenance review before any public redistribution, release or DOI deposit.
-- Full pipeline reproduction requires authorized local raw workbooks placed in `data/raw/`.
+- Full pipeline reproduction still requires authorized local raw workbooks in `data/raw/`.
+- The main portfolio link points to `https://monicact.github.io/`; that profile site may require human GitHub Pages configuration in the separate `MonicaCT/MonicaCT` repository.
+
+## Final Status
+
+PASS
