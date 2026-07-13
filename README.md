@@ -12,7 +12,7 @@ Branch-level credit portfolio analytics for monitoring growth, financial inclusi
 [![Methodology](https://img.shields.io/badge/Methodology-1F2933?style=for-the-badge)](docs/methodology.md)
 [![Reproduce](https://img.shields.io/badge/Reproduce-Workflow-1F2933?style=for-the-badge)](#reproduce)
 [![Repository](https://img.shields.io/badge/Repository-GitHub-2F5F8F?style=for-the-badge)](https://github.com/MonicaCT/InclusiveCreditRiskAnalytics-Bolivia)
-[![Back to Portfolio](https://img.shields.io/badge/Back%20to-Portfolio-B23A48?style=for-the-badge)](https://monicact.github.io/)
+[![Back to Portfolio](https://img.shields.io/badge/Back%20to-Portfolio-B23A48?style=for-the-badge)](https://monicact.github.io/MonicaCT/)
 
 ## Executive KPIs
 
