@@ -121,3 +121,60 @@ The public dashboard URL was not repeatedly rechecked in this phase. GitHub Page
 ## Final Status
 
 PASS
+---
+
+# Stage 1A Validation Addendum
+
+Date: 2026-07-14
+
+Scope: minimum flagship analytics standard for `InclusiveCreditRiskAnalytics-Bolivia`.
+
+## Summary
+
+Status: PASS
+
+Stage 1A created recruiter-facing and BI-readiness documentation using existing README content, documentation, public outputs, reports and SQL. No raw workbooks were opened, no pipeline was executed, no KPI was recalculated, no model was rerun, no forecast or stress-test output was regenerated and no dashboard was rebuilt.
+
+## Files created
+
+- `docs/EXECUTIVE_SUMMARY.md`
+- `docs/VARIABLE_CATALOG.md`
+- `docs/DATA_QUALITY_REPORT.md`
+- `docs/RECRUITER_GUIDE.md`
+- `docs/STAKEHOLDER_REQUIREMENTS.md`
+- `docs/KPI_DICTIONARY.md`
+- `docs/DATA_MODEL.md`
+- `docs/FLAGSHIP_STATUS.md`
+- `sql/ddl/001_create_dimensions.sql`
+- `sql/ddl/002_create_facts.sql`
+- `sql/marts/mart_executive_kpis.sql`
+- `sql/marts/mart_branch_performance.sql`
+- `sql/marts/mart_portfolio_quality.sql`
+- `sql/marts/mart_forecast_accuracy.sql`
+- `sql/marts/mart_stress_testing.sql`
+- `sql/marts/mart_financial_inclusion.sql`
+- `sql/validation/001_primary_key_checks.sql`
+- `sql/validation/002_duplicate_checks.sql`
+- `sql/validation/003_domain_checks.sql`
+- `sql/validation/004_balance_checks.sql`
+- `sql/validation/005_privacy_checks.sql`
+
+## Files modified
+
+- `README.md`
+- `docs/VALIDATION_REPORT.md`
+
+## Checks
+
+| Check | Status | Notes |
+|---|---|---|
+| Documents created | PASS | All required Stage 1A documents exist. |
+| KPI consistency | PASS | KPI values and definitions reuse README, executive tables and public outputs. |
+| Variables not invented | PASS | Variable names are taken from existing data dictionary, reports, outputs and SQL. Unknown product fields are marked REVIEW_REQUIRED. |
+| Power BI, Tableau and DAX status | PASS | Power BI and DAX are labelled PLANNED; Tableau is not claimed as complete. |
+| Star schema coherence | PASS | Data model separates dimensions, facts, forecast facts and scenario facts. |
+| SQL paths | PASS | SQL uses repository-relative public paths only. |
+| Privacy | PASS | Documentation reinforces branch-level aggregate publication and raw workbook exclusion. |
+| Data unchanged | PASS | No files under `data/`, `outputs/`, `models/`, `reports/`, `paper/`, `dashboard/`, `scripts/` or `src/` were modified. |
+| Results unchanged | PASS | No figures, tables, models, forecasts or stress tests were recalculated. |
+| README links | PASS | README top badges link to the Stage 1A documents and existing products. |
