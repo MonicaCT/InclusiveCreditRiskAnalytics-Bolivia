@@ -12,7 +12,7 @@ Branch Portfolio Share,growth,01_growth_measures.dax,Branch share of selected no
 Branch Client Share,growth,01_growth_measures.dax,Branch share of selected non-Global clients,COMPLETE
 Delinquency Rate,risk,02_risk_measures.dax,Weighted delinquency rate,COMPLETE
 Risk Penalty,risk,02_risk_measures.dax,Risk penalty score from existing outputs,COMPLETE
-Portfolio at Risk Indicator,risk,02_risk_measures.dax,Placeholder for PAR if source becomes available,REVIEW_REQUIRED
+Portfolio at Risk Indicator,risk,02_risk_measures.dax,Not confirmed in public aggregate package; keep hidden from dashboard pages until PAR bucket exists,REVIEW_REQUIRED
 Responsible Inclusion Score,inclusion,03_inclusion_measures.dax,Responsible inclusion score,COMPLETE
 Client Outreach Index,inclusion,03_inclusion_measures.dax,Client outreach score,COMPLETE
 Portfolio Depth Index,inclusion,03_inclusion_measures.dax,Portfolio depth score,COMPLETE
@@ -26,7 +26,7 @@ Forecast Upper 95,forecast,04_forecast_measures.dax,Forecast upper 95 percent in
 Forecast RMSE,forecast,04_forecast_measures.dax,Backtesting RMSE,COMPLETE
 Forecast MAE,forecast,04_forecast_measures.dax,Backtesting MAE,COMPLETE
 Forecast MAPE,forecast,04_forecast_measures.dax,Backtesting MAPE,COMPLETE
-Forecast Error,forecast,04_forecast_measures.dax,Forecast minus observed value where overlapping dates exist,REVIEW_REQUIRED
+Forecast Error,forecast,04_forecast_measures.dax,Not confirmed for non-overlapping forecast horizon; use RMSE MAE and MAPE instead,REVIEW_REQUIRED
 Selected Forecast Model,forecast,04_forecast_measures.dax,Selected model label,COMPLETE
 Stressed Portfolio,stress,05_stress_measures.dax,Portfolio under selected stress scenario,COMPLETE
 Stress Portfolio Delta,stress,05_stress_measures.dax,Stressed ending portfolio minus baseline component,COMPLETE

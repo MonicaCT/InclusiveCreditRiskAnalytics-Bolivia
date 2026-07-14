@@ -41,3 +41,19 @@ Screenshots, PDF, GIF and video exports are planned only after the human Power B
 ## Privacy Status
 
 The Power BI package uses public aggregate and branch-level data only. It does not include raw Excel workbooks, borrower-level records, personal identifiers, addresses, phone numbers, emails or credentials.
+
+## Stage 2B Status
+
+Status: PENDING MANUAL POWER BI DESKTOP BUILD
+
+A single Windows automation setup attempt was made. The automation runtime could not be used safely in this environment, so no repeated UI attempts were made.
+
+Confirmed ready for manual build:
+
+- 11 public aggregate CSV files open through PowerShell CSV parsing;
+- Power BI theme JSON parses successfully;
+- 14 documented relationships are ready;
+- DAX measure files are ready;
+- two measures remain `REVIEW_REQUIRED` and must stay hidden from dashboard pages.
+
+No `.pbix`, `.pbip`, PDF export or screenshots were created in Stage 2B.

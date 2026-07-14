@@ -222,3 +222,31 @@ Stage 2A prepared a professional Power BI package using existing public processe
 | Forbidden paths | PASS | No files under raw data, scripts, src, models, reports, paper, dashboard, docs website HTML or figures were modified. |
 | Local paths and secrets | PASS | No private local paths, tokens, credentials or API keys were added. |
 | `git diff --check` | PASS | No whitespace errors. |
+
+---
+
+# Stage 2B Validation Addendum
+
+Date: 2026-07-14
+
+Scope: real Power BI dashboard build attempt and manual assembly package for `InclusiveCreditRiskAnalytics-Bolivia`.
+
+## Summary
+
+Status: WARNING
+
+Power BI Desktop could not be controlled safely through the available Windows automation runtime. No repeated UI automation attempts were made. No fake `.pbix`, `.pbip`, screenshots or PDF exports were created.
+
+## Confirmed
+
+- 11 public aggregate CSV files are present and parse locally.
+- Theme JSON is valid.
+- Relationship catalog contains 14 one-to-many, single-direction, active relationships.
+- DAX files are ready for manual creation in Power BI Desktop.
+- `Portfolio at Risk Indicator` remains `REVIEW_REQUIRED` because no documented PAR bucket exists in the public aggregate package.
+- `Forecast Error` remains `REVIEW_REQUIRED` because point forecast error is not confirmed for the non-overlapping forecast horizon.
+- Both `REVIEW_REQUIRED` measures must stay hidden from dashboard pages.
+
+## Privacy
+
+No raw workbooks, microdata, personal identifiers, credentials, local private paths, fake screenshots or fake Power BI files were added.

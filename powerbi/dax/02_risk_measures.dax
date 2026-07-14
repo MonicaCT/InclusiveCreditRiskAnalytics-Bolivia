@@ -18,9 +18,7 @@ AVERAGE ( 'fact_delinquency_monthly'[risk_penalty] )
 Portfolio Quality Score :=
 100 - ( [Delinquency Rate] * 100 )
 
-Portfolio at Risk Indicator :=
--- REVIEW_REQUIRED: the public data package includes mora and overdue amount, but no separate PAR bucket.
-BLANK ()
+Portfolio at Risk Indicator :=`n-- REVIEW_REQUIRED: not available in the public aggregate package. Do not place this measure on dashboard pages until a documented PAR bucket exists.`nBLANK ()
 
 Risk Status Label :=
 SWITCH (

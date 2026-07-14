@@ -24,9 +24,7 @@ AVERAGE ( 'fact_forecasts'[mae] )
 Forecast MAPE :=
 AVERAGE ( 'fact_forecasts'[mape] )
 
-Forecast Error :=
--- REVIEW_REQUIRED: meaningful only on dates where observed and forecast data overlap.
-[Forecast Portfolio] - [Total Portfolio]
+Forecast Error :=`n-- REVIEW_REQUIRED: point forecast error is not confirmed for non-overlapping forecast periods. Use RMSE, MAE and MAPE for the dashboard until overlap validation is completed.`nBLANK ()
 
 Selected Forecast Model :=
 VAR SelectedModel =
