@@ -1,0 +1,28 @@
+-- Financial inclusion and territorial balance measures
+
+Responsible Inclusion Score :=
+AVERAGE ( 'fact_inclusion_metrics'[inclusion_responsibility_score] )
+
+Client Outreach Index :=
+AVERAGE ( 'fact_inclusion_metrics'[client_outreach_index] )
+
+Portfolio Depth Index :=
+AVERAGE ( 'fact_inclusion_metrics'[portfolio_depth_index] )
+
+Territorial Portfolio Balance :=
+AVERAGE ( 'fact_inclusion_metrics'[portfolio_balance_score] )
+
+Territorial Client Balance :=
+AVERAGE ( 'fact_inclusion_metrics'[clients_balance_score] )
+
+Clients per Million BOB :=
+AVERAGE ( 'fact_inclusion_metrics'[clients_per_million_bob] )
+
+Inclusion Status Label :=
+SWITCH (
+    TRUE(),
+    [Responsible Inclusion Score] >= 90, "High responsible inclusion",
+    [Responsible Inclusion Score] >= 70, "Moderate responsible inclusion",
+    [Responsible Inclusion Score] < 70, "Needs attention",
+    "Not available"
+)

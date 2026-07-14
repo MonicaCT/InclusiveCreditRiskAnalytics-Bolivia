@@ -1,0 +1,4 @@
+"branch_key","branch","branch_type","geography_key","active_flag","privacy_level"
+"BR_16_DE_JULIO","16 de Julio","Branch","GEO_BOL","true","Public aggregate"
+"BR_CEJA","Ceja","Branch","GEO_BOL","true","Public aggregate"
+"BR_GLOBAL","Global","Global aggregate","GEO_BOL","true","Public aggregate"

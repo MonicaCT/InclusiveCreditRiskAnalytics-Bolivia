@@ -1,0 +1,15 @@
+from_table,from_column,to_table,to_column,cardinality,cross_filter_direction,active,notes
+dim_date,date_key,fact_portfolio_monthly,date_key,one-to-many,single,true,Monthly portfolio filtering
+dim_date,date_key,fact_clients_monthly,date_key,one-to-many,single,true,Monthly client filtering
+dim_date,date_key,fact_delinquency_monthly,date_key,one-to-many,single,true,Monthly risk filtering
+dim_date,date_key,fact_inclusion_metrics,date_key,one-to-many,single,true,Monthly inclusion filtering
+dim_date,date_key,fact_forecasts,date_key,one-to-many,single,true,Forecast date filtering
+dim_branch,branch_key,fact_portfolio_monthly,branch_key,one-to-many,single,true,Branch portfolio filtering
+dim_branch,branch_key,fact_clients_monthly,branch_key,one-to-many,single,true,Branch client filtering
+dim_branch,branch_key,fact_delinquency_monthly,branch_key,one-to-many,single,true,Branch risk filtering
+dim_branch,branch_key,fact_inclusion_metrics,branch_key,one-to-many,single,true,Branch inclusion filtering
+dim_branch,branch_key,fact_forecasts,branch_key,one-to-many,single,true,Branch forecast filtering
+dim_branch,branch_key,fact_stress_scenarios,branch_key,one-to-many,single,true,Branch stress filtering
+dim_model,model_key,fact_forecasts,model_key,one-to-many,single,true,Forecast model filtering
+dim_scenario,scenario_key,fact_stress_scenarios,scenario_key,one-to-many,single,true,Stress scenario filtering
+dim_geography,geography_key,dim_branch,geography_key,one-to-many,single,true,Optional geography-to-branch filtering

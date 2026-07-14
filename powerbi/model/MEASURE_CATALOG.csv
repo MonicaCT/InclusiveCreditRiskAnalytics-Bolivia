@@ -1,0 +1,40 @@
+measure_name,group_name,dax_file,business_purpose,status
+Total Portfolio,base,00_base_measures.dax,Portfolio balance using Global row unless a branch is filtered,COMPLETE
+Total Clients,base,00_base_measures.dax,Client count using Global row unless a branch is filtered,COMPLETE
+Total Disbursements,base,00_base_measures.dax,Disbursements total,COMPLETE
+Overdue Portfolio,base,00_base_measures.dax,Overdue portfolio amount,COMPLETE
+Average Balance per Client,base,00_base_measures.dax,Portfolio balance divided by clients,COMPLETE
+Portfolio Growth Amount,growth,01_growth_measures.dax,Absolute monthly portfolio change,COMPLETE
+Portfolio Growth Rate,growth,01_growth_measures.dax,Relative monthly portfolio change,COMPLETE
+Client Growth Amount,growth,01_growth_measures.dax,Absolute monthly client change,COMPLETE
+Client Growth Rate,growth,01_growth_measures.dax,Relative monthly client change,COMPLETE
+Branch Portfolio Share,growth,01_growth_measures.dax,Branch share of selected non-Global portfolio,COMPLETE
+Branch Client Share,growth,01_growth_measures.dax,Branch share of selected non-Global clients,COMPLETE
+Delinquency Rate,risk,02_risk_measures.dax,Weighted delinquency rate,COMPLETE
+Risk Penalty,risk,02_risk_measures.dax,Risk penalty score from existing outputs,COMPLETE
+Portfolio at Risk Indicator,risk,02_risk_measures.dax,Placeholder for PAR if source becomes available,REVIEW_REQUIRED
+Responsible Inclusion Score,inclusion,03_inclusion_measures.dax,Responsible inclusion score,COMPLETE
+Client Outreach Index,inclusion,03_inclusion_measures.dax,Client outreach score,COMPLETE
+Portfolio Depth Index,inclusion,03_inclusion_measures.dax,Portfolio depth score,COMPLETE
+Territorial Portfolio Balance,inclusion,03_inclusion_measures.dax,Territorial portfolio balance score,COMPLETE
+Territorial Client Balance,inclusion,03_inclusion_measures.dax,Territorial client balance score,COMPLETE
+Forecast Portfolio,forecast,04_forecast_measures.dax,Forecast portfolio balance,COMPLETE
+Forecast Lower 80,forecast,04_forecast_measures.dax,Forecast lower 80 percent interval,COMPLETE
+Forecast Upper 80,forecast,04_forecast_measures.dax,Forecast upper 80 percent interval,COMPLETE
+Forecast Lower 95,forecast,04_forecast_measures.dax,Forecast lower 95 percent interval,COMPLETE
+Forecast Upper 95,forecast,04_forecast_measures.dax,Forecast upper 95 percent interval,COMPLETE
+Forecast RMSE,forecast,04_forecast_measures.dax,Backtesting RMSE,COMPLETE
+Forecast MAE,forecast,04_forecast_measures.dax,Backtesting MAE,COMPLETE
+Forecast MAPE,forecast,04_forecast_measures.dax,Backtesting MAPE,COMPLETE
+Forecast Error,forecast,04_forecast_measures.dax,Forecast minus observed value where overlapping dates exist,REVIEW_REQUIRED
+Selected Forecast Model,forecast,04_forecast_measures.dax,Selected model label,COMPLETE
+Stressed Portfolio,stress,05_stress_measures.dax,Portfolio under selected stress scenario,COMPLETE
+Stress Portfolio Delta,stress,05_stress_measures.dax,Stressed ending portfolio minus baseline component,COMPLETE
+Stressed Clients,stress,05_stress_measures.dax,Clients under selected stress scenario,COMPLETE
+Stressed Delinquency Rate,stress,05_stress_measures.dax,Delinquency rate under selected stress scenario,COMPLETE
+Risk Weighted Growth,stress,05_stress_measures.dax,Risk-weighted growth amount,COMPLETE
+Risk Flag,stress,05_stress_measures.dax,Selected risk flag label,COMPLETE
+Selected Period Label,display,06_display_measures.dax,Human-readable selected period,COMPLETE
+Selected Branch Label,display,06_display_measures.dax,Human-readable selected branch,COMPLETE
+Dashboard Title,display,06_display_measures.dax,Dynamic title,COMPLETE
+KPI Status Label,display,06_display_measures.dax,Simple executive status label,COMPLETE

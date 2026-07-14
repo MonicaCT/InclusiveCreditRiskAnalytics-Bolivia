@@ -1,0 +1,53 @@
+-- Growth and branch-share measures
+
+Previous Period Portfolio :=
+CALCULATE ( [Total Portfolio], DATEADD ( 'dim_date'[date], -1, MONTH ) )
+
+Portfolio Growth Amount :=
+[Total Portfolio] - [Previous Period Portfolio]
+
+Portfolio Growth Rate :=
+DIVIDE ( [Portfolio Growth Amount], [Previous Period Portfolio] )
+
+Previous Period Clients :=
+CALCULATE ( [Total Clients], DATEADD ( 'dim_date'[date], -1, MONTH ) )
+
+Client Growth Amount :=
+[Total Clients] - [Previous Period Clients]
+
+Client Growth Rate :=
+DIVIDE ( [Client Growth Amount], [Previous Period Clients] )
+
+Branch Portfolio Share :=
+VAR BranchPortfolio =
+    CALCULATE (
+        SUM ( 'fact_portfolio_monthly'[portfolio_kbob] ),
+        'fact_portfolio_monthly'[observation_type] = "observed",
+        'dim_branch'[branch] <> "Global"
+    )
+VAR AllBranchPortfolio =
+    CALCULATE (
+        SUM ( 'fact_portfolio_monthly'[portfolio_kbob] ),
+        'fact_portfolio_monthly'[observation_type] = "observed",
+        ALL ( 'dim_branch' ),
+        'dim_branch'[branch] <> "Global"
+    )
+RETURN
+    DIVIDE ( BranchPortfolio, AllBranchPortfolio )
+
+Branch Client Share :=
+VAR BranchClients =
+    CALCULATE (
+        SUM ( 'fact_clients_monthly'[clients] ),
+        'fact_clients_monthly'[observation_type] = "observed",
+        'dim_branch'[branch] <> "Global"
+    )
+VAR AllBranchClients =
+    CALCULATE (
+        SUM ( 'fact_clients_monthly'[clients] ),
+        'fact_clients_monthly'[observation_type] = "observed",
+        ALL ( 'dim_branch' ),
+        'dim_branch'[branch] <> "Global"
+    )
+RETURN
+    DIVIDE ( BranchClients, AllBranchClients )

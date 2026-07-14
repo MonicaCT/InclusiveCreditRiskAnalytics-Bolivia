@@ -1,0 +1,32 @@
+-- Portfolio quality and risk measures
+
+Delinquency Rate :=
+DIVIDE (
+    CALCULATE (
+        SUM ( 'fact_delinquency_monthly'[overdue_kbob] ),
+        'fact_delinquency_monthly'[observation_type] = "observed"
+    ),
+    CALCULATE (
+        SUM ( 'fact_portfolio_monthly'[portfolio_kbob] ),
+        'fact_portfolio_monthly'[observation_type] = "observed"
+    )
+)
+
+Risk Penalty :=
+AVERAGE ( 'fact_delinquency_monthly'[risk_penalty] )
+
+Portfolio Quality Score :=
+100 - ( [Delinquency Rate] * 100 )
+
+Portfolio at Risk Indicator :=
+-- REVIEW_REQUIRED: the public data package includes mora and overdue amount, but no separate PAR bucket.
+BLANK ()
+
+Risk Status Label :=
+SWITCH (
+    TRUE(),
+    [Delinquency Rate] <= 0.01, "Controlled",
+    [Delinquency Rate] <= 0.03, "Watch",
+    [Delinquency Rate] > 0.03, "Elevated",
+    "Not available"
+)

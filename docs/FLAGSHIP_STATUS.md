@@ -1,4 +1,4 @@
-﻿# Flagship Status
+# Flagship Status
 
 | component | status | evidence | next action |
 |---|---|---|---|
@@ -14,7 +14,14 @@
 | SQL marts | COMPLETE | `sql/marts/` | document as public analytical SQL |
 | SQL validation | COMPLETE | `sql/validation/` | run only when public tables are available |
 | Python dashboard | NOT REQUIRED | current website and R/GitHub Pages dashboard already exist | no action in Stage 1A |
-| Power BI | PLANNED | `powerbi/README.md` only | Stage 2 candidate |
+| Power BI public data layer | COMPLETE | `powerbi/data/` aggregate CSV package | import in Power BI Desktop |
+| Power BI semantic model | COMPLETE | `powerbi/model/STAR_SCHEMA.md` and relationship catalog | build manually in Power BI Desktop |
+| Power BI DAX measures | COMPLETE | `powerbi/dax/` and `powerbi/model/MEASURE_CATALOG.csv` | paste and validate in Power BI Desktop |
+| Power Query loaders | COMPLETE | `powerbi/power_query/` | configure `RootPath` in Power BI Desktop |
+| Power BI theme | COMPLETE | `powerbi/theme/monicact_analytics_theme.json` | import theme in Power BI Desktop |
+| Power BI dashboard specification | COMPLETE | `powerbi/specs/` and `powerbi/wireframes/` | implement report pages manually |
+| Power BI PBIX/PBIP | PENDING HUMAN POWER BI DESKTOP | no automatable Power BI build tools were available in this environment | create `.pbix` locally from the documented package |
+| Power BI screenshots/PDF/GIF/video | PLANNED AFTER POWER BI DESKTOP BUILD | report file not yet built | export only after human desktop build |
 | Tableau | PLANNED | no artifact yet | consider only if it adds distinct storytelling value |
 | technical report | COMPLETE | `docs/technical-report.html` and reports | maintain |
 | reproducibility | PARTIAL | reproducible workflow documented; raw workbooks required locally | do not rerun in Stage 1A |

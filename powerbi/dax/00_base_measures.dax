@@ -1,0 +1,55 @@
+-- Base measures for Inclusive Credit Risk Analytics Bolivia
+-- Rule: use the Global row for total executive KPIs when no branch is filtered.
+
+Total Portfolio :=
+VAR HasBranchFilter = ISFILTERED ( 'dim_branch'[branch] )
+RETURN
+    IF (
+        HasBranchFilter,
+        CALCULATE (
+            SUM ( 'fact_portfolio_monthly'[portfolio_kbob] ),
+            'fact_portfolio_monthly'[observation_type] = "observed"
+        ),
+        CALCULATE (
+            SUM ( 'fact_portfolio_monthly'[portfolio_kbob] ),
+            'fact_portfolio_monthly'[observation_type] = "observed",
+            'dim_branch'[branch] = "Global"
+        )
+    )
+
+Total Clients :=
+VAR HasBranchFilter = ISFILTERED ( 'dim_branch'[branch] )
+RETURN
+    IF (
+        HasBranchFilter,
+        CALCULATE (
+            SUM ( 'fact_clients_monthly'[clients] ),
+            'fact_clients_monthly'[observation_type] = "observed"
+        ),
+        CALCULATE (
+            SUM ( 'fact_clients_monthly'[clients] ),
+            'fact_clients_monthly'[observation_type] = "observed",
+            'dim_branch'[branch] = "Global"
+        )
+    )
+
+Total Disbursements :=
+CALCULATE (
+    SUM ( 'fact_portfolio_monthly'[disbursements_kbob] ),
+    'fact_portfolio_monthly'[observation_type] = "observed"
+)
+
+Overdue Portfolio :=
+CALCULATE (
+    SUM ( 'fact_delinquency_monthly'[overdue_kbob] ),
+    'fact_delinquency_monthly'[observation_type] = "observed"
+)
+
+Average Balance per Client :=
+DIVIDE ( [Total Portfolio] * 1000, [Total Clients] )
+
+Latest Observed Date :=
+CALCULATE (
+    MAX ( 'dim_date'[date] ),
+    'fact_portfolio_monthly'[observation_type] = "observed"
+)

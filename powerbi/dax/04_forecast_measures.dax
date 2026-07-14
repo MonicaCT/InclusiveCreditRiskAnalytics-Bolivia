@@ -1,0 +1,41 @@
+-- Forecast review measures
+
+Forecast Portfolio :=
+SUM ( 'fact_forecasts'[forecast_kbob] )
+
+Forecast Lower 80 :=
+SUM ( 'fact_forecasts'[lo80_kbob] )
+
+Forecast Upper 80 :=
+SUM ( 'fact_forecasts'[hi80_kbob] )
+
+Forecast Lower 95 :=
+SUM ( 'fact_forecasts'[lo95_kbob] )
+
+Forecast Upper 95 :=
+SUM ( 'fact_forecasts'[hi95_kbob] )
+
+Forecast RMSE :=
+AVERAGE ( 'fact_forecasts'[rmse] )
+
+Forecast MAE :=
+AVERAGE ( 'fact_forecasts'[mae] )
+
+Forecast MAPE :=
+AVERAGE ( 'fact_forecasts'[mape] )
+
+Forecast Error :=
+-- REVIEW_REQUIRED: meaningful only on dates where observed and forecast data overlap.
+[Forecast Portfolio] - [Total Portfolio]
+
+Selected Forecast Model :=
+VAR SelectedModel =
+    CALCULATE (
+        SELECTEDVALUE ( 'dim_model'[model] ),
+        'fact_forecasts'[selected_model] = TRUE()
+    )
+RETURN
+    IF ( ISBLANK ( SelectedModel ), SELECTEDVALUE ( 'dim_model'[model], "Multiple models" ), SelectedModel )
+
+Forecast Interval Width 95 :=
+[Forecast Upper 95] - [Forecast Lower 95]

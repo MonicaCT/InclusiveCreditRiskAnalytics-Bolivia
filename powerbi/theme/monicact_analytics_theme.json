@@ -1,0 +1,36 @@
+{
+  "name": "MonicaCT Analytics Theme",
+  "dataColors": [
+    "#B23A48",
+    "#1F7A8C",
+    "#E58F2A",
+    "#2F5F8F",
+    "#5E7D68",
+    "#1F2933",
+    "#8A4F7D",
+    "#6B7280"
+  ],
+  "background": "#F7F4EF",
+  "foreground": "#1F2933",
+  "tableAccent": "#B23A48",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [
+          {
+            "fontFace": "Segoe UI Semibold",
+            "fontSize": 12,
+            "color": { "solid": { "color": "#1F2933" } }
+          }
+        ],
+        "labels": [
+          {
+            "fontFace": "Segoe UI",
+            "fontSize": 10,
+            "color": { "solid": { "color": "#1F2933" } }
+          }
+        ]
+      }
+    }
+  }
+}

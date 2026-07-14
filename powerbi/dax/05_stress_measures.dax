@@ -1,0 +1,28 @@
+-- Stress scenario measures
+
+Stressed Portfolio :=
+SUM ( 'fact_stress_scenarios'[ending_portfolio_kbob] )
+
+Stress Baseline Portfolio :=
+[Stressed Portfolio] - SUM ( 'fact_stress_scenarios'[new_portfolio_kbob] )
+
+Stress Portfolio Delta :=
+[Stressed Portfolio] - [Stress Baseline Portfolio]
+
+Stressed Clients :=
+SUM ( 'fact_stress_scenarios'[ending_clients] )
+
+Stressed Delinquency Rate :=
+AVERAGE ( 'fact_stress_scenarios'[stressed_mora_rate] )
+
+Risk Weighted Growth :=
+SUM ( 'fact_stress_scenarios'[risk_weighted_growth_kbob] )
+
+Risk Flag :=
+SELECTEDVALUE ( 'fact_stress_scenarios'[risk_flag], "Multiple risk flags" )
+
+Development Read :=
+SELECTEDVALUE ( 'fact_stress_scenarios'[development_read], "Multiple readings" )
+
+Scenario Horizon Months :=
+MAX ( 'fact_stress_scenarios'[horizon_months] )

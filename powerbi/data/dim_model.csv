@@ -1,0 +1,4 @@
+"model_key","model","model_family","selection_rule"
+"MD_ARIMA","ARIMA","ARIMA","Lowest documented holdout error by branch/model output"
+"MD_ETS","ETS","ETS","Lowest documented holdout error by branch/model output"
+"MD_NAIVE","Naive","Naive","Lowest documented holdout error by branch/model output"

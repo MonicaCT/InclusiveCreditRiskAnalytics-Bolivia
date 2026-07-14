@@ -1,0 +1,93 @@
+table,column,data_type,unit,role,description,status
+dim_date,date_key,text,not applicable,key,Month key in YYYYMM format,COMPLETE
+dim_date,date,date,month,attribute,Month date used for time intelligence,COMPLETE
+dim_date,year,integer,year,attribute,Calendar year,COMPLETE
+dim_date,quarter,text,quarter,attribute,Calendar quarter label,COMPLETE
+dim_date,month,integer,month,attribute,Calendar month number,COMPLETE
+dim_date,month_label,text,month,attribute,Readable month label,COMPLETE
+dim_date,is_forecast_period,boolean,not applicable,attribute,Flags forecast horizon months,COMPLETE
+dim_branch,branch_key,text,not applicable,key,Branch key,COMPLETE
+dim_branch,branch,text,not applicable,attribute,Branch or portfolio scope,COMPLETE
+dim_branch,branch_type,text,not applicable,attribute,Global total or branch unit,COMPLETE
+dim_branch,geography_key,text,not applicable,key,Geography key,COMPLETE
+dim_branch,active_flag,boolean,not applicable,attribute,Active branch flag for filtering,COMPLETE
+dim_branch,privacy_level,text,not applicable,attribute,Public aggregation level,COMPLETE
+dim_geography,geography_key,text,not applicable,key,Geography key,COMPLETE
+dim_geography,geography_label,text,not applicable,attribute,Geographic label,COMPLETE
+dim_geography,geography_level,text,not applicable,attribute,Geographic aggregation level,COMPLETE
+dim_geography,country,text,not applicable,attribute,Country label,COMPLETE
+dim_geography,note,text,not applicable,attribute,Geography note,COMPLETE
+dim_model,model_key,text,not applicable,key,Forecast model key,COMPLETE
+dim_model,model,text,not applicable,attribute,Forecast model name,COMPLETE
+dim_model,model_family,text,not applicable,attribute,Forecast method family,COMPLETE
+dim_model,selection_rule,text,not applicable,attribute,Model-selection note,COMPLETE
+dim_scenario,scenario_key,text,not applicable,key,Stress scenario key,COMPLETE
+dim_scenario,scenario,text,not applicable,attribute,Stress scenario name,COMPLETE
+dim_scenario,scenario_family,text,not applicable,attribute,Scenario group,COMPLETE
+dim_scenario,assumption_summary,text,not applicable,attribute,Scenario assumptions summary,COMPLETE
+fact_portfolio_monthly,portfolio_monthly_key,text,not applicable,key,Portfolio fact key,COMPLETE
+fact_portfolio_monthly,date_key,text,not applicable,foreign key,Date key,COMPLETE
+fact_portfolio_monthly,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_portfolio_monthly,observation_type,text,not applicable,attribute,Observed or projected classification,COMPLETE
+fact_portfolio_monthly,portfolio_kbob,decimal,thousand BOB,measure,Portfolio balance,COMPLETE
+fact_portfolio_monthly,disbursements_kbob,decimal,thousand BOB,measure,Disbursements amount,COMPLETE
+fact_portfolio_monthly,overdue_kbob,decimal,thousand BOB,measure,Overdue portfolio amount,COMPLETE
+fact_portfolio_monthly,mora_rate,decimal,rate,measure,Delinquency rate from source output,COMPLETE
+fact_portfolio_monthly,growth_kbob,decimal,thousand BOB,measure,Portfolio growth amount,COMPLETE
+fact_portfolio_monthly,amortization_kbob,decimal,thousand BOB,measure,Amortization amount,COMPLETE
+fact_clients_monthly,clients_monthly_key,text,not applicable,key,Client fact key,COMPLETE
+fact_clients_monthly,date_key,text,not applicable,foreign key,Date key,COMPLETE
+fact_clients_monthly,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_clients_monthly,observation_type,text,not applicable,attribute,Observed or projected classification,COMPLETE
+fact_clients_monthly,clients,integer,clients,measure,Client count,COMPLETE
+fact_clients_monthly,clients_growth_mom,decimal,rate,measure,Month-over-month client growth,COMPLETE
+fact_clients_monthly,avg_balance_bob,decimal,BOB,measure,Average balance per client,COMPLETE
+fact_clients_monthly,disbursement_per_client_bob,decimal,BOB,measure,Disbursement per client,COMPLETE
+fact_clients_monthly,clients_per_million_bob,decimal,clients per million BOB,measure,Outreach per portfolio unit,COMPLETE
+fact_delinquency_monthly,delinquency_monthly_key,text,not applicable,key,Delinquency fact key,COMPLETE
+fact_delinquency_monthly,date_key,text,not applicable,foreign key,Date key,COMPLETE
+fact_delinquency_monthly,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_delinquency_monthly,observation_type,text,not applicable,attribute,Observed or projected classification,COMPLETE
+fact_delinquency_monthly,overdue_kbob,decimal,thousand BOB,measure,Overdue portfolio amount,COMPLETE
+fact_delinquency_monthly,mora_rate,decimal,rate,measure,Delinquency rate,COMPLETE
+fact_delinquency_monthly,risk_penalty,decimal,score,measure,Risk penalty component,COMPLETE
+fact_inclusion_metrics,inclusion_metric_key,text,not applicable,key,Inclusion fact key,COMPLETE
+fact_inclusion_metrics,date_key,text,not applicable,foreign key,Date key,COMPLETE
+fact_inclusion_metrics,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_inclusion_metrics,observation_type,text,not applicable,attribute,Observed or projected classification,COMPLETE
+fact_inclusion_metrics,clients,integer,clients,measure,Client count,COMPLETE
+fact_inclusion_metrics,portfolio_kbob,decimal,thousand BOB,measure,Portfolio amount,COMPLETE
+fact_inclusion_metrics,clients_per_million_bob,decimal,clients per million BOB,measure,Outreach density,COMPLETE
+fact_inclusion_metrics,client_outreach_index,decimal,index,measure,Client outreach index,COMPLETE
+fact_inclusion_metrics,portfolio_depth_index,decimal,index,measure,Portfolio depth index,COMPLETE
+fact_inclusion_metrics,risk_penalty,decimal,score,measure,Risk penalty component,COMPLETE
+fact_inclusion_metrics,inclusion_responsibility_score,decimal,score,measure,Responsible inclusion score,COMPLETE
+fact_inclusion_metrics,portfolio_balance_score,decimal,score,measure,Territorial portfolio balance score,COMPLETE
+fact_inclusion_metrics,clients_balance_score,decimal,score,measure,Territorial client balance score,COMPLETE
+fact_forecasts,forecast_key,text,not applicable,key,Forecast fact key,COMPLETE
+fact_forecasts,date_key,text,not applicable,foreign key,Forecast date key,COMPLETE
+fact_forecasts,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_forecasts,model_key,text,not applicable,foreign key,Model key,COMPLETE
+fact_forecasts,model,text,not applicable,attribute,Model name retained for readability,COMPLETE
+fact_forecasts,forecast_kbob,decimal,thousand BOB,measure,Forecast portfolio balance,COMPLETE
+fact_forecasts,lo80_kbob,decimal,thousand BOB,measure,80 percent lower interval,COMPLETE
+fact_forecasts,hi80_kbob,decimal,thousand BOB,measure,80 percent upper interval,COMPLETE
+fact_forecasts,lo95_kbob,decimal,thousand BOB,measure,95 percent lower interval,COMPLETE
+fact_forecasts,hi95_kbob,decimal,thousand BOB,measure,95 percent upper interval,COMPLETE
+fact_forecasts,rmse,decimal,thousand BOB,measure,Backtesting RMSE attached to model,COMPLETE
+fact_forecasts,mae,decimal,thousand BOB,measure,Backtesting MAE attached to model,COMPLETE
+fact_forecasts,mape,decimal,percent,measure,Backtesting MAPE attached to model,COMPLETE
+fact_forecasts,selected_model,boolean,not applicable,attribute,Selected model flag,COMPLETE
+fact_stress_scenarios,stress_scenario_key,text,not applicable,key,Stress fact key,COMPLETE
+fact_stress_scenarios,branch_key,text,not applicable,foreign key,Branch key,COMPLETE
+fact_stress_scenarios,scenario_key,text,not applicable,foreign key,Scenario key,COMPLETE
+fact_stress_scenarios,horizon_months,integer,months,attribute,Stress horizon,COMPLETE
+fact_stress_scenarios,monthly_growth,decimal,rate,measure,Scenario monthly growth assumption,COMPLETE
+fact_stress_scenarios,client_growth,decimal,rate,measure,Scenario client growth assumption,COMPLETE
+fact_stress_scenarios,ending_portfolio_kbob,decimal,thousand BOB,measure,Stressed ending portfolio,COMPLETE
+fact_stress_scenarios,ending_clients,integer,clients,measure,Stressed ending clients,COMPLETE
+fact_stress_scenarios,stressed_mora_rate,decimal,rate,measure,Stressed delinquency rate,COMPLETE
+fact_stress_scenarios,new_portfolio_kbob,decimal,thousand BOB,measure,Scenario new portfolio amount,COMPLETE
+fact_stress_scenarios,risk_weighted_growth_kbob,decimal,thousand BOB,measure,Risk-weighted growth,COMPLETE
+fact_stress_scenarios,risk_flag,text,not applicable,attribute,Risk classification flag,COMPLETE
+fact_stress_scenarios,development_read,text,not applicable,attribute,Development interpretation label,COMPLETE

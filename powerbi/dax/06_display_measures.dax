@@ -1,0 +1,25 @@
+-- Display and executive-label measures
+
+Selected Period Label :=
+VAR MinDate = MIN ( 'dim_date'[date] )
+VAR MaxDate = MAX ( 'dim_date'[date] )
+RETURN
+    FORMAT ( MinDate, "MMM yyyy" ) & " to " & FORMAT ( MaxDate, "MMM yyyy" )
+
+Selected Branch Label :=
+SELECTEDVALUE ( 'dim_branch'[branch], "All branches" )
+
+Dashboard Title :=
+"Inclusive Credit Risk Analytics Bolivia - " & [Selected Branch Label]
+
+KPI Status Label :=
+SWITCH (
+    TRUE(),
+    [Delinquency Rate] <= 0.01 && [Responsible Inclusion Score] >= 90, "Responsible growth",
+    [Delinquency Rate] <= 0.03, "Monitor risk",
+    [Delinquency Rate] > 0.03, "Risk attention required",
+    "Status not available"
+)
+
+Latest Data Label :=
+"Latest observed month: " & FORMAT ( [Latest Observed Date], "MMM yyyy" )

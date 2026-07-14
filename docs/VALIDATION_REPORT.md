@@ -178,3 +178,47 @@ Stage 1A created recruiter-facing and BI-readiness documentation using existing 
 | Data unchanged | PASS | No files under `data/`, `outputs/`, `models/`, `reports/`, `paper/`, `dashboard/`, `scripts/` or `src/` were modified. |
 | Results unchanged | PASS | No figures, tables, models, forecasts or stress tests were recalculated. |
 | README links | PASS | README top badges link to the Stage 1A documents and existing products. |
+---
+
+# Stage 2A Validation Addendum
+
+Date: 2026-07-14
+
+Scope: Power BI semantic model and executive dashboard package for `InclusiveCreditRiskAnalytics-Bolivia`.
+
+## Summary
+
+Status: PASS
+
+Stage 2A prepared a professional Power BI package using existing public processed outputs only. No raw workbooks were opened, no pipeline was executed, no KPI was recalculated, no model was rerun, no forecast or stress-test output was regenerated and no dashboard was rebuilt.
+
+## Files created or updated
+
+- `powerbi/README.md`
+- `powerbi/POWER_BI_BUILD_STATUS.md`
+- `powerbi/data/`
+- `powerbi/model/`
+- `powerbi/dax/`
+- `powerbi/power_query/`
+- `powerbi/theme/`
+- `powerbi/specs/`
+- `powerbi/wireframes/`
+- `README.md`
+- `docs/FLAGSHIP_STATUS.md`
+- `docs/VALIDATION_REPORT.md`
+
+## Checks
+
+| Check | Status | Notes |
+|---|---|---|
+| Public aggregate data package | PASS | Power BI CSV inputs are derived from existing processed and output tables only. |
+| Raw data privacy | PASS | No raw workbooks, personal identifiers or individual-level records were added. |
+| Power BI model | PASS | Star schema, relationships, column dictionary and measure catalog are documented. |
+| DAX package | PASS | Base, growth, risk, inclusion, forecast, stress and display measures are documented. |
+| Power Query package | PASS | Loaders use a repository-relative `RootPath` parameter and public CSV files. |
+| Dashboard pages | PASS | Six executive pages are specified with wireframes. |
+| PBIX/PBIP status | PASS | No `.pbix` or fake `.pbip` was created; desktop build is marked pending. |
+| Theme | PASS | JSON theme is valid. |
+| Forbidden paths | PASS | No files under raw data, scripts, src, models, reports, paper, dashboard, docs website HTML or figures were modified. |
+| Local paths and secrets | PASS | No private local paths, tokens, credentials or API keys were added. |
+| `git diff --check` | PASS | No whitespace errors. |
